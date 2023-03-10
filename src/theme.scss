@@ -1,0 +1,40 @@
+@use '@angular/material' as mat;
+@use './styles/theme/team-up-it-event.component.theme.scss' as team-up-it-event;
+@include mat.core();
+@import './styles/colors.scss';
+
+// Config
+
+$primary: mat.define-palette($primary-palette, 900);
+$accent: mat.define-palette($accent-palette);
+
+$typography: mat.define-typography-config(
+    $font-family: 'Rockstars'
+);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+  ),
+  typography: $typography
+));
+
+// Custom
+@mixin app-theme($theme) {
+  // Get the typography config from the theme.
+  $typography-config: mat.get-typography-config($theme);
+
+  body {
+      margin: 0;
+      font-family: mat.font-family($typography-config);
+  }
+}
+
+
+// Include all theme styles for the components.
+@include mat.core();
+@include mat.all-component-themes($theme);
+@include app-theme($theme);
+@include team-up-it-event.theme($theme);
+

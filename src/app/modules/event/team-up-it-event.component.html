@@ -1,0 +1,56 @@
+<mat-expansion-panel
+  class="rs-event"
+  hideToggle
+  [class.closed]="!isOpened"
+  [expanded]="isOpened"
+  (opened)="opened.emit()"
+  (closed)="closed.emit()">
+  <mat-expansion-panel-header class="rs-event-summary">
+    <mat-card class="card">
+      <mat-card-header class="header" [class.opened]="isOpened">
+        <div class="date vertical-center">
+          <span class="day"> {{ event.start | date : 'dd' }} </span>
+          <span class="weekday">
+            {{ event.start | date : 'EEEE' : '' : 'nl' }}
+          </span>
+        </div>
+        <div class="title vertical-center">
+          {{ event.title }}
+        </div>
+      </mat-card-header>
+    </mat-card>
+  </mat-expansion-panel-header>
+  <div #detailCard class="rs-event-detail">
+    <div class="info">
+      <table>
+        <tr>
+          <td class="rs-event-info">
+            <img src="/assets/clock.png" class="rs-icon"/> <span>
+              {{ event.start | date : 'HH:mm' }} - {{ event.end | date : 'HH:mm' }}
+            </span>
+          </td>
+          <td class="rs-event-info"><img src="/assets/persons.png" class="rs-icon" /><span>{{ event.spots }}</span></td>
+        </tr>
+        <tr *ngIf="event.location">
+          <td class="rs-event-info" colspan="2">
+            <img src="/assets/location.png" class="rs-icon" />
+            <a *ngIf="event.locationLink" [href]="event.locationLink"><span>{{ event.location }}</span></a>
+            <span *ngIf="!event.locationLink">{{ event.location }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="rs-event-info" colspan="2">
+            <mat-chip-listbox aria-label="Categories">
+              <mat-chip mat-primary *ngFor="let category of event.categories">
+                {{ category }}
+              </mat-chip>
+            </mat-chip-listbox>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <button mat-accent class="team-up-it-button" mat-raised-button (click)="goToSignUpPage()">
+      <img src="/assets/rubber_duck.png" />Ga naar Team Up IT
+    </button>
+  </div>
+</mat-expansion-panel>

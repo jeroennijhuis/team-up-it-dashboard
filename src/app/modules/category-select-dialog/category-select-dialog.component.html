@@ -1,0 +1,42 @@
+<h1 class="dialog-title">Instellingen</h1>
+<!-- FIXME mat-dialog-title -->
+<mat-dialog-content class="mat-typography">
+  <div>
+    <table>
+      <tr>
+        <ng-container
+          *ngFor="
+            let group of [
+              { name: 'Algemeen', imgSrc: '/assets/general.png', categories: generalCategories },
+              { name: 'Chapters', imgSrc: '/assets/chapter.png', categories: chapterCategories },
+              { name: 'Tribes', imgSrc: '/assets/tribe.png', categories: tribeCategories }
+            ]
+          ">
+          <td *ngIf="group.categories.size > 0">
+            <div class="category-header">
+              <img [src]="group.imgSrc" />
+              <h3>{{ group.name }}</h3>
+            </div>
+            <mat-checkbox
+              [checked]="isAllChecked(group.categories)"
+              (change)="checkAll(group.categories, $event.checked)">
+              Alles
+            </mat-checkbox>
+            <br />
+            <mat-checkbox
+              *ngFor="let category of group.categories | keyvalue"
+              [checked]="category.value"
+              [indeterminate]="isAllChecked(group.categories)"
+              (change)="group.categories.set(category.key, $event.checked)">
+              {{ category.key }}
+            </mat-checkbox>
+          </td>
+        </ng-container>
+      </tr>
+    </table>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+  <button mat-button [mat-dialog-close]="currentCategories">Annuleer</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="selectedCategories">Bijwerken</button>
+</mat-dialog-actions>

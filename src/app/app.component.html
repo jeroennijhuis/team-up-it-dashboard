@@ -1,0 +1,25 @@
+<div class="main-content">
+  <div class="background"></div>
+</div>
+<div class="list-view">
+  <ng-container *ngFor="let year of eventCalendar | keyvalue : useMapOrder">
+    <div class="divider-vertical">
+      <div class="center-element">{{ year.key }}</div>
+    </div>
+
+    <ng-container *ngFor="let month of year.value | keyvalue : useMapOrder; let i = index">
+      <div *ngFor="let event of month.value; let i = index">
+        <div *ngIf="i === 0" class="divider-horizontal">
+          {{ event.start | date : 'MMMM' : '' : 'nl' }}
+        </div>
+        <app-team-up-it-event
+          [event]="event"
+          [isOpened]="event === highlightedEvent"
+          (opened)="highlightedEvent = event"
+          (closed)="highlightedEvent = event === highlightedEvent ? undefined : highlightedEvent">
+        </app-team-up-it-event>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+<img class="rs-logo" src="assets/team-up-it-logo.png" (click)="openCategorySelect()" />
