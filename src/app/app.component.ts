@@ -9,6 +9,7 @@ import { ToasterService } from './modules/toaster/toaster.service';
 import { ObjectUtil } from './utils/object.util';
 import { ArrayUtil } from './utils/array.util';
 import { TAny } from './utils/types';
+import { MobileService } from './services/mobile/mobile.service';
 
 @Component({
   selector: 'app-root',
@@ -23,13 +24,16 @@ export class AppComponent implements OnDestroy {
   highlightedEvent?: Event;
   eventCount = 0;
 
+  isMobile?: boolean;
+
   constructor(
     private readonly service: TeamUpItService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly injector: Injector,
-    private readonly toasterService: ToasterService
+    private readonly toasterService: ToasterService,
+    private readonly mobileService: MobileService
   ) {
     route.queryParams
       .pipe(
@@ -42,6 +46,8 @@ export class AppComponent implements OnDestroy {
         switchMap(categories => this.loadEvents(categories))
       )
       .subscribe();
+
+    this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
   }
 
   loadEvents(categories?: string[]): Observable<Event[]> {

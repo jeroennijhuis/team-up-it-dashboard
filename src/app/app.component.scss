@@ -24,13 +24,20 @@
 }
 
 .rs-logo {
-    max-width: 130px;
-    max-height: 130px;
-    top: 5px;
-    left: 0px;
     position: absolute;
     cursor: pointer;
-    
+
+    max-width: 10vh;
+    max-height: 10vh;
+    top: 3vh;
+    left: 0;
+
+    @media (min-width:925px) {
+        max-width: 13vh;
+        max-height: 13vh;
+        top: 1vh;
+        left: 0.5vh;
+    }
 }
 
 .divider {
@@ -40,7 +47,7 @@
         font-weight: bold;
         text-transform: uppercase;
         text-align: center;
-        width: 400px;
+        width: 40vh;
         margin: 15px 20px 30px 20px;
         align-items: center;
         --text-divider-gap: 1rem;
@@ -116,7 +123,13 @@
     height: calc(100vh - 40px);
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    align-items: flex-start;
     margin-top: 20px;
+    align-items: center;
+
+    @media (min-width:925px) {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    
+      }
 }
+

@@ -10,6 +10,7 @@ import { registerLocaleData } from '@angular/common';
 import myLocaleNl from '@angular/common/locales/nl';
 import { CategorySelectDialogModule } from './modules/category-select-dialog/category-select-dialog.module';
 import { ToasterModule } from './modules/toaster/toaster.module';
+import { MobileService } from './services/mobile/mobile.service';
 
 registerLocaleData(myLocaleNl);
 
@@ -25,7 +26,7 @@ registerLocaleData(myLocaleNl);
     TeamUpItEventModule,
     CategorySelectDialogModule,
   ],
-  providers: [TeamUpItService],
+  providers: [TeamUpItService, MobileService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

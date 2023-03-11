@@ -3,7 +3,7 @@
 </div>
 <div class="list-view">
   <ng-container *ngFor="let year of eventCalendar | keyvalue : useMapOrder">
-    <div class="divider-vertical">
+    <div *ngIf="!isMobile" class="divider-vertical">
       <div class="center-element">{{ year.key }}</div>
     </div>
 

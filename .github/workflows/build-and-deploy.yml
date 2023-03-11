@@ -3,7 +3,7 @@ run-name: Build and deploy
 on:
   push:
     branches:
-      - 'main'
+      - 'improvement/responsive'
 jobs:
   build:
     name: Build and Test
