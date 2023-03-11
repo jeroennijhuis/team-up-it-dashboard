@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy } from '@angular/core';
+import { Component, HostListener, Injector, OnDestroy } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
 import { debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { CategorySelectDialogComponent } from './modules/category-select-dialog/
 import { ToasterService } from './modules/toaster/toaster.service';
 import { ObjectUtil } from './utils/object.util';
 import { ArrayUtil } from './utils/array.util';
+import { TAny } from './utils/types';
 
 @Component({
   selector: 'app-root',
@@ -137,6 +138,11 @@ export class AppComponent implements OnDestroy {
           });
         });
       });
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  private onPopState(_event: TAny) {
+    location.reload();
   }
 
   ngOnDestroy(): void {
