@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { TeamUpItEventComponent } from './team-up-it-event.component';
+import { MobileService } from 'src/app/services/mobile/mobile.service';
 
 @NgModule({
   declarations: [TeamUpItEventComponent],
@@ -25,6 +26,7 @@ import { TeamUpItEventComponent } from './team-up-it-event.component';
     MatButtonModule,
     MatChipsModule,
   ],
+  providers: [MobileService],
   exports: [TeamUpItEventComponent],
 })
 export class TeamUpItEventModule {}

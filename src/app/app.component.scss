@@ -47,13 +47,12 @@
         font-weight: bold;
         text-transform: uppercase;
         text-align: center;
-        width: 40vh;
-        margin: 15px 20px 30px 20px;
-        align-items: center;
         --text-divider-gap: 1rem;
-        display: flex;
         height: 80px;
-    
+        display: flex;
+        margin: 0 auto 3vh auto;
+        align-items: center;
+        
         &::before, &::after {
             content: '';
             height: 2px;
@@ -120,16 +119,25 @@
 }
 
 .list-view {
-    height: calc(100vh - 40px);
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    gap: 3vh;
     align-items: center;
 
     @media (min-width:925px) {
         flex-wrap: wrap;
         align-items: flex-start;
-    
-      }
+        height: calc(100vh - 50px);
+
+    }
 }
 
+.app-row {
+    width: 100%;
+
+    @media (min-width:925px) {
+        width: 25em; 
+
+    }
+}
