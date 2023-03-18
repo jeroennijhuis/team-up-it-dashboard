@@ -23,20 +23,31 @@
     }
 }
 
-.rs-logo {
-    position: absolute;
-    cursor: pointer;
+mat-toolbar {
+    height: 80px;
+    padding: 0 20px;
+    background-color: transparent;
 
-    max-width: 10vh;
-    max-height: 10vh;
-    top: 3vh;
-    left: 0;
+    mat-form-field {
+        margin-left: 20px;
+        min-width: 100px;
+
+        &.large {
+            width: 400px;
+        }
+    }
+}
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+.rs-logo {
+    cursor: pointer;
+    max-height: 9vh;
+    display: none;
 
     @media (min-width:925px) {
-        max-width: 13vh;
-        max-height: 13vh;
-        top: 1vh;
-        left: 0.5vh;
+        display: block;
     }
 }
 
@@ -139,5 +150,83 @@
     @media (min-width:925px) {
         width: 25em; 
 
+    }
+}
+
+
+::ng-deep {
+
+    .mat-datepicker-content {
+        background-color: #232323;
+
+        * {
+            color: white;
+
+            &:disabled {
+                opacity: 0.5 !important;
+            }
+        }
+    }
+
+    .mat-calendar-body-disabled > .mat-calendar-body-cell-content {
+        opacity: 0.2 !important;
+        color: white !important;
+    }
+
+    .mat-calendar-arrow {
+        fill: white;
+    }
+
+    .mat-calendar-body-cell-content {
+        color: white;
+    }
+
+    .mat-calendar-previous-button::after, .mat-calendar-next-button::after {
+        color: white;
+    }
+
+    .mat-calendar-table-header-divider::after {
+        background-color: #FFE000;
+    }
+
+    .mat-calendar-body-selected {
+        background-color: #FFE000;
+        color: #232323 !important;
+    }
+
+    .mat-calendar-body-today {
+        border-color: #FFE000 !important;
+    }
+
+
+    /**/
+
+
+    .mdc-text-field {
+        background-color: #232323 !important;
+
+        * {
+            color: white;
+            caret-color: white !important;
+
+            input {
+                color: white !important;
+            }
+        }
+    }    
+
+    /**/
+    .mdc-menu-surface {
+        background-color: #232323 !important;
+    }
+
+    mat-option {
+        * {
+            color: white !important;
+        }
+
+        .mat-pseudo-checkbox-checked {
+            background-color: #FFE000 !important;
+        }
     }
 }

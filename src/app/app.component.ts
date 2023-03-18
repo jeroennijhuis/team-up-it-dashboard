@@ -1,6 +1,6 @@
 import { Component, HostListener, Injector, OnDestroy } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
-import { debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { catchError, debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Event } from './services/team-up-it/models/upcoming-events-response';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { ObjectUtil } from './utils/object.util';
 import { ArrayUtil } from './utils/array.util';
 import { TAny } from './utils/types';
 import { MobileService } from './services/mobile/mobile.service';
+import { CategoryUtil } from './utils/category.util';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +18,18 @@ import { MobileService } from './services/mobile/mobile.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
-  private categories?: string[];
+  categories: string[] = [];
+
+  eventCategories: string[] = [];
   private destroy$ = new Subject<void>();
   // Year - Month - events
   eventCalendar?: Map<number, Map<number, Event[]>>;
   highlightedEvent?: Event;
   eventCount = 0;
+
+  readonly today = new Date();
+
+  search?: string;
 
   isMobile?: boolean;
 
@@ -43,14 +50,21 @@ export class AppComponent implements OnDestroy {
           const value = params['categories'];
           return ObjectUtil.isDefined(value) ? (Array.isArray(value) ? (value as string[]) : (value as string).split(',')) : undefined;
         }),
-        switchMap(categories => this.loadEvents(categories))
+        switchMap(categories => this.loadEvents(categories ?? []))
       )
       .subscribe();
+
+    service
+      .getCategories()
+      .pipe(take(1))
+      .subscribe(categories => {
+        this.eventCategories = categories;
+      });
 
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
   }
 
-  loadEvents(categories?: string[]): Observable<Event[]> {
+  loadEvents(categories: string[]): Observable<Event[]> {
     this.eventCalendar = undefined;
     this.eventCount = 0;
     this.categories = categories;
@@ -121,7 +135,7 @@ export class AppComponent implements OnDestroy {
         const isChanged = !ArrayUtil.equals(this.categories, categories);
 
         if (isChanged) {
-          this.loadEvents(categories).subscribe(_ => this.toasterService.show('Dashboard bijgewerkt', '🤘'));
+          this.loadEvents(categories ?? []).subscribe(_ => this.toasterService.show('Dashboard bijgewerkt', '🤘'));
         }
       });
   }

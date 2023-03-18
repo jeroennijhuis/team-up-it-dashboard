@@ -30,9 +30,6 @@ export class TeamUpItEventComponent implements OnInit, AfterViewInit, OnDestroy 
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => {
       if (isDesktop) {
         this.horizontalAlign();
-        window.addEventListener('resize', _ => {
-          this.horizontalAlign();
-        });
       }
     });
   }

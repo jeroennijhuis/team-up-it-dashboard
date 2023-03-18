@@ -11,6 +11,15 @@ import myLocaleNl from '@angular/common/locales/nl';
 import { CategorySelectDialogModule } from './modules/category-select-dialog/category-select-dialog.module';
 import { ToasterModule } from './modules/toaster/toaster.module';
 import { MobileService } from './services/mobile/mobile.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { CustomDateAdapter } from './utils/custom.date.adapter';
 
 registerLocaleData(myLocaleNl);
 
@@ -25,8 +34,22 @@ registerLocaleData(myLocaleNl);
     ToasterModule,
     TeamUpItEventModule,
     CategorySelectDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
   ],
-  providers: [TeamUpItService, MobileService],
+  providers: [
+    TeamUpItService,
+    MobileService,
+    { provide: MAT_DATE_LOCALE, useValue: 'nl-NL' },
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

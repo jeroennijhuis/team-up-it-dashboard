@@ -1,0 +1,92 @@
+//FIXME THEME OVERRIDE NOT WORKING
+
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+  $accent-palette: map.get($color-config, 'accent');
+
+  ::ng-deep {
+
+    .mat-datepicker-content {
+        background-color: mat.get-color-from-palette($primary-palette, 900);
+
+        * {
+            color: white;
+
+            &:disabled {
+                opacity: 0.5 !important;
+            }
+        }
+    }
+
+    .mat-calendar-body-disabled > .mat-calendar-body-cell-content {
+        opacity: 0.2 !important;
+        color: white !important;
+    }
+
+    .mat-calendar-arrow {
+        fill: white;
+    }
+
+    .mat-calendar-body-cell-content {
+        color: white;
+    }
+
+    .mat-calendar-previous-button::after, .mat-calendar-next-button::after {
+        color: white;
+    }
+
+    .mat-calendar-table-header-divider::after {
+        background-color: mat.get-color-from-palette($accent-palette);
+    }
+
+    .mat-calendar-body-selected {
+        background-color: mat.get-color-from-palette($accent-palette);
+        color: mat.get-color-from-palette($primary-palette, 900) !important;
+    }
+
+    .mat-calendar-body-today {
+        border-color: mat.get-color-from-palette($accent-palette) !important;
+    }
+
+
+    /**/
+
+
+    .mdc-text-field {
+        background-color: #232323 !important;
+
+        * {
+            color: white;
+            caret-color: white !important;
+
+            input {
+                color: white !important;
+            }
+        }
+    }    
+
+    /**/
+    .mdc-menu-surface {
+        background-color: #232323 !important;
+    }
+
+    mat-option {
+        * {
+            color: white !important;
+        }
+
+        .mat-pseudo-checkbox-checked {
+            background-color: #FFE000 !important;
+        }
+    }
+}
+
+
+}
