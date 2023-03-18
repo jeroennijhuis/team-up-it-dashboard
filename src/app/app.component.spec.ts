@@ -8,15 +8,32 @@ import { ToasterService } from './modules/toaster/toaster.service';
 import { teamUpItServiceStub } from 'src/testing/stubs/team-up-it.service-stub copy';
 import { MobileService } from './services/mobile/mobile.service';
 import { mobileServiceStub } from 'src/testing/stubs/mobile.service-stub';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { CustomDateAdapter } from './utils/custom.date.adapter';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MatDialogModule],
+      imports: [
+        RouterTestingModule,
+        MatDialogModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSelectModule,
+      ],
       providers: [
         { provide: TeamUpItService, useValue: teamUpItServiceStub },
         { provide: ToasterService, useValue: toasterServiceStub },
         { provide: MobileService, useValue: mobileServiceStub },
+
+        { provide: MAT_DATE_LOCALE, useValue: 'nl-NL' },
+        { provide: DateAdapter, useClass: CustomDateAdapter },
       ],
       declarations: [AppComponent],
     }).compileComponents();
