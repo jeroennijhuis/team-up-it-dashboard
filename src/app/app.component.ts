@@ -1,6 +1,6 @@
 import { Component, HostListener, Injector, OnDestroy } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
-import { catchError, debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Event } from './services/team-up-it/models/upcoming-events-response';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +10,6 @@ import { ObjectUtil } from './utils/object.util';
 import { ArrayUtil } from './utils/array.util';
 import { TAny } from './utils/types';
 import { MobileService } from './services/mobile/mobile.service';
-import { CategoryUtil } from './utils/category.util';
 
 @Component({
   selector: 'app-root',
