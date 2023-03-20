@@ -1,6 +1,6 @@
 import { Component, HostListener, Injector, OnDestroy } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
-import { debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { count, debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Event } from './services/team-up-it/models/upcoming-events-response';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +10,8 @@ import { ObjectUtil } from './utils/object.util';
 import { ArrayUtil } from './utils/array.util';
 import { TAny } from './utils/types';
 import { MobileService } from './services/mobile/mobile.service';
+import { CategoryUtil } from './utils/category.util';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +21,29 @@ import { MobileService } from './services/mobile/mobile.service';
 export class AppComponent implements OnDestroy {
   categories: string[] = [];
 
-  eventCategories: string[] = [];
+  private readonly generalCategories: string[] = [];
+  private readonly chapterCategories: string[] = [];
+  private readonly tribeCategories: string[] = [];
+
+  readonly categoryGroups = new Map<string, string[]>([
+    ['Algemeen', this.generalCategories],
+    ['Chapters', this.chapterCategories],
+    ['Tribes', this.tribeCategories],
+  ]);
+
+  selectedCategoriesFormControl = new FormControl<string[]>([]);
+
+  get selectedCategories(): string[] {
+    return this.selectedCategoriesFormControl.value as string[];
+  }
+
   private destroy$ = new Subject<void>();
   // Year - Month - events
   eventCalendar?: Map<number, Map<number, Event[]>>;
   highlightedEvent?: Event;
   eventCount = 0;
+  selectedCategoryGroupIndex?: number;
+  totalCategoryCount?: number;
 
   readonly today = new Date();
 
@@ -57,7 +76,17 @@ export class AppComponent implements OnDestroy {
       .getCategories()
       .pipe(take(1))
       .subscribe(categories => {
-        this.eventCategories = categories;
+        this.totalCategoryCount = categories.length;
+
+        categories.forEach(category => {
+          if (CategoryUtil.isChapter(category)) {
+            this.chapterCategories.push(category);
+          } else if (CategoryUtil.isTribe(category)) {
+            this.tribeCategories.push(category);
+          } else {
+            this.generalCategories.push(category);
+          }
+        });
       });
 
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
@@ -101,6 +130,35 @@ export class AppComponent implements OnDestroy {
 
   useMapOrder(_a: unknown, _b: unknown) {
     return 1;
+  }
+
+  setCategoryGroup(categories: string[], checked: boolean) {
+    if (!checked) {
+      const newValue = this.selectedCategories.filter(selectedCategory => !categories.includes(selectedCategory));
+      this.selectedCategoriesFormControl.setValue(newValue);
+    } else {
+      const newCategories = categories.filter(category => !this.selectedCategories.includes(category));
+
+      //FIXME UNIQUE
+      this.selectedCategoriesFormControl.setValue([...newCategories, ...this.selectedCategories]);
+    }
+  }
+
+  onFilterChange(categories: Map<string, boolean>, key: string, checked: boolean) {
+    console.log(categories, key, checked);
+    categories.set(key, checked);
+  }
+
+  isAllChecked(categories: string[]) {
+    return categories.every(category => this.selectedCategories.includes(category));
+  }
+
+  isAnyChecked(categories: string[]) {
+    return categories.some(category => this.selectedCategories.includes(category));
+  }
+
+  countChecked(categories: string[]): number {
+    return categories.filter(category => this.selectedCategories.includes(category)).length;
   }
 
   openCategorySelect(): void {

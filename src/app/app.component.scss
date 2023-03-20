@@ -27,13 +27,18 @@ mat-toolbar {
     height: 80px;
     padding: 0 20px;
     background-color: transparent;
+    position: fixed;
+    z-index: 1;
 
     mat-form-field {
-        margin-left: 20px;
         min-width: 100px;
 
         &.large {
             width: 400px;
+        }
+
+        &:not(:first-of-type) {  
+            margin-left: 20px;
         }
     }
 }
@@ -135,11 +140,12 @@ mat-toolbar {
     flex-direction: column;
     gap: 3vh;
     align-items: center;
+    padding-top: 80px;
 
     @media (min-width:925px) {
         flex-wrap: wrap;
         align-items: flex-start;
-        height: calc(100vh - 50px);
+        height: calc(100vh - 50px - 100px);
 
     }
 }
@@ -198,6 +204,10 @@ mat-toolbar {
         border-color: #FFE000 !important;
     }
 
+    .mat-calendar-body-label {
+        display: none;
+    }
+
 
     /**/
 
@@ -220,13 +230,56 @@ mat-toolbar {
         background-color: #232323 !important;
     }
 
-    mat-option {
-        * {
-            color: white !important;
-        }
+    .mdc-form-field {
+        color: white !important;
+    }
 
-        .mat-pseudo-checkbox-checked {
-            background-color: #FFE000 !important;
+    .mdc-form-field {
+        border-color: white !important;
+    }
+
+    mat-option {
+        &::ng-deep {
+            * {
+                color: white !important;
+            }
+    
+            .mat-pseudo-checkbox-checked {
+                background-color: #FFE000 !important;
+            }
         }
+    }
+     
+    //FIXME https://material.angular.io/components/select/overview
+    // panelClass="example-panel-{{panelColor.value}}" 
+    
+    /**/
+
+    .mat-expansion-panel.filter {
+        background-color: transparent;
+    }
+
+    mat-option {
+        padding-left: 40px !important;
+    }
+
+    mat-pseudo-checkbox {
+        border-color: white !important;
+
+        &::after {
+        color: #232323 !important;
+        }
+    }
+
+    .mat-expansion-indicator::after {
+        color: white !important;
+    }
+
+    .mdc-checkbox__background:not(:checked) {
+        border-color: white !important;
+    }
+
+    .mdc-menu-surface{
+        max-height: calc(100vh - 80px) !important; //FIXME MENU HEIGHT VAR
     }
 }

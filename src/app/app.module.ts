@@ -20,6 +20,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomDateAdapter } from './utils/custom.date.adapter';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 registerLocaleData(myLocaleNl);
 
@@ -43,6 +45,8 @@ registerLocaleData(myLocaleNl);
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatExpansionModule,
+    MatCheckboxModule,
   ],
   providers: [
     TeamUpItService,
