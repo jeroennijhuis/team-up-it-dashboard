@@ -3,12 +3,14 @@ import { TeamUpItService } from './services/team-up-it/team-up-it.service';
 import { debounceTime, distinctUntilChanged, interval, map, startWith, Subject, take, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Event } from './services/team-up-it/models/upcoming-events-response';
-import { ToasterService } from './modules/toaster/toaster.service';
 import { ObjectUtil } from './utils/object.util';
 import { TAny } from './utils/types';
 import { MobileService } from './services/mobile/mobile.service';
 import { CategoryUtil } from './utils/category.util';
 import { FormControl } from '@angular/forms';
+
+// TODO Create seperate filter component
+// TODO QUERY PARAMS FOR DATE AND SEARCH
 
 @Component({
   selector: 'app-root',
@@ -18,6 +20,7 @@ import { FormControl } from '@angular/forms';
 export class AppComponent implements OnDestroy {
   categories: string[] = [];
   events: Event[] = [];
+  isLoading = true;
 
   private readonly generalCategories: string[] = [];
   private readonly chapterCategories: string[] = [];
@@ -56,12 +59,7 @@ export class AppComponent implements OnDestroy {
   totalCategoryCount?: number;
   isMobile?: boolean;
 
-  constructor(
-    route: ActivatedRoute,
-    private readonly service: TeamUpItService,
-    private readonly toasterService: ToasterService,
-    private readonly mobileService: MobileService
-  ) {
+  constructor(route: ActivatedRoute, private readonly service: TeamUpItService, private readonly mobileService: MobileService) {
     this.loadEvents();
 
     service
@@ -119,7 +117,9 @@ export class AppComponent implements OnDestroy {
         take(1),
         map(result => result.upcomingEvents)
       )
-      .subscribe(events => (this.events = events));
+      .subscribe(events => {
+        this.events = events;
+      });
   }
 
   loadEvents2(): void {
@@ -127,7 +127,7 @@ export class AppComponent implements OnDestroy {
     this.eventCount = 0;
 
     const calendar = new Map<number, Map<number, Event[]>>();
-
+    this.isLoading = true;
     this.events
       // Filter by search terms
       .filter(event => {
@@ -163,6 +163,7 @@ export class AppComponent implements OnDestroy {
         this.eventCount++;
       });
     this.eventCalendar = calendar;
+    this.isLoading = false;
   }
 
   useMapOrder(_a: unknown, _b: unknown) {

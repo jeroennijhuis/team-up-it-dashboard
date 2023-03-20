@@ -1,7 +1,8 @@
 .main-content {
     display: grid;
     align-items: center;
-    max-height: 100vh;
+    height: 100%;
+    width: 100%;
     position: absolute;
   
     .background {
@@ -50,6 +51,7 @@ mat-toolbar {
     cursor: pointer;
     max-height: 9vh;
     display: none;
+    margin-right: 20px;
 
     @media (min-width:925px) {
         display: block;
@@ -283,3 +285,57 @@ mat-toolbar {
         max-height: calc(100vh - 80px) !important; //FIXME MENU HEIGHT VAR
     }
 }
+
+
+
+.loader {
+    border: 8px solid #232323;
+    /* Light grey */
+    border-top: 8px solid #ffe000;
+    /* Dark Green */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spinloader 2s linear infinite;
+    margin: auto;
+
+}
+
+.loader img {
+    height: 120px;
+    width: 120px;
+    animation: spinlogo 2s linear infinite;
+}
+
+@keyframes spinloader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinlogo {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+
+
+
+
+// .loader{
+//     position: fixed;
+//     left: 0px;
+//     top: 0px;
+//     width: 100%;
+//     height: 100%;
+//     z-index: 9999;
+//   }
