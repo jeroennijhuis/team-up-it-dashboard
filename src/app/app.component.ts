@@ -1,13 +1,23 @@
 import { Component, HostListener, Injector, OnDestroy } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
-import { count, debounceTime, interval, map, Observable, startWith, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import {
+  count,
+  debounceTime,
+  distinctUntilChanged,
+  interval,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from './services/team-up-it/models/upcoming-events-response';
-import { MatDialog } from '@angular/material/dialog';
-import { CategorySelectDialogComponent } from './modules/category-select-dialog/category-select-dialog.component';
 import { ToasterService } from './modules/toaster/toaster.service';
 import { ObjectUtil } from './utils/object.util';
-import { ArrayUtil } from './utils/array.util';
 import { TAny } from './utils/types';
 import { MobileService } from './services/mobile/mobile.service';
 import { CategoryUtil } from './utils/category.util';
@@ -20,6 +30,7 @@ import { FormControl } from '@angular/forms';
 })
 export class AppComponent implements OnDestroy {
   categories: string[] = [];
+  events: Event[] = [];
 
   private readonly generalCategories: string[] = [];
   private readonly chapterCategories: string[] = [];
@@ -31,10 +42,22 @@ export class AppComponent implements OnDestroy {
     ['Tribes', this.tribeCategories],
   ]);
 
+  readonly today = new Date();
+
   selectedCategoriesFormControl = new FormControl<string[]>([]);
+  selectedFromDateFormControl = new FormControl<Date>(this.today);
+  searchFormControl = new FormControl<string>('');
 
   get selectedCategories(): string[] {
-    return this.selectedCategoriesFormControl.value as string[];
+    return ObjectUtil.mustBeDefined(this.selectedCategoriesFormControl.value);
+  }
+
+  get selectedFromDate(): Date {
+    return ObjectUtil.mustBeDefined(this.selectedFromDateFormControl.value);
+  }
+
+  get search(): string {
+    return ObjectUtil.mustBeDefined(this.searchFormControl.value);
   }
 
   private destroy$ = new Subject<void>();
@@ -44,88 +67,115 @@ export class AppComponent implements OnDestroy {
   eventCount = 0;
   selectedCategoryGroupIndex?: number;
   totalCategoryCount?: number;
-
-  readonly today = new Date();
-
-  search?: string;
-
   isMobile?: boolean;
 
   constructor(
+    route: ActivatedRoute,
     private readonly service: TeamUpItService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly dialog: MatDialog,
-    private readonly injector: Injector,
     private readonly toasterService: ToasterService,
     private readonly mobileService: MobileService
   ) {
-    route.queryParams
-      .pipe(
-        debounceTime(10), //because sometimes the first emit is undefined
-        take(1),
-        map(params => {
-          const value = params['categories'];
-          return ObjectUtil.isDefined(value) ? (Array.isArray(value) ? (value as string[]) : (value as string).split(',')) : undefined;
-        }),
-        switchMap(categories => this.loadEvents(categories ?? []))
-      )
-      .subscribe();
+    this.loadEvents();
 
     service
       .getCategories()
       .pipe(take(1))
       .subscribe(categories => {
+        this.categories = categories;
         this.totalCategoryCount = categories.length;
 
         categories.forEach(category => {
           if (CategoryUtil.isChapter(category)) {
-            this.chapterCategories.push(category);
+            this.chapterCategories.push(category); //TODO REMOVE PREFIX
           } else if (CategoryUtil.isTribe(category)) {
             this.tribeCategories.push(category);
           } else {
             this.generalCategories.push(category);
           }
         });
+
+        this.selectedCategoriesFormControl.valueChanges.pipe(takeUntil(this.destroy$), distinctUntilChanged()).subscribe(_ => {
+          this.loadEvents2();
+        });
+
+        this.selectedFromDateFormControl.valueChanges.pipe(takeUntil(this.destroy$), distinctUntilChanged()).subscribe(_ => {
+          this.loadEvents2();
+        });
+
+        this.searchFormControl.valueChanges.pipe(takeUntil(this.destroy$), distinctUntilChanged(), debounceTime(500)).subscribe(_ => {
+          this.loadEvents2();
+        });
+
+        route.queryParams
+          .pipe(
+            debounceTime(10), //because sometimes the first emit is undefined
+            take(1),
+            map(params => {
+              const value = params['categories'];
+              return ObjectUtil.isDefined(value)
+                ? Array.isArray(value)
+                  ? (value as string[])
+                  : (value as string).split(',')
+                : [...this.generalCategories, ...this.chapterCategories, ...this.tribeCategories];
+            })
+          )
+          .subscribe(categories => this.selectedCategoriesFormControl.setValue(categories));
       });
 
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
   }
 
-  loadEvents(categories: string[]): Observable<Event[]> {
+  loadEvents(): void {
+    this.service
+      .getUpcomingEvents()
+      .pipe(
+        take(1),
+        map(result => result.upcomingEvents)
+      )
+      .subscribe(events => (this.events = events));
+  }
+
+  loadEvents2(): void {
     this.eventCalendar = undefined;
     this.eventCount = 0;
-    this.categories = categories;
 
-    return this.service.getUpcomingEvents(categories).pipe(
-      take(1),
-      map(result => result.upcomingEvents.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())),
-      tap((events: Event[]) => {
-        const calendar = new Map<number, Map<number, Event[]>>();
-        events.forEach(event => {
-          const date = new Date(event.start);
-          const year = date.getFullYear();
-          const month = date.getMonth();
+    const calendar = new Map<number, Map<number, Event[]>>();
 
-          // Year
-          if (!calendar.has(year)) {
-            calendar.set(year, new Map());
-          }
-          const yearCalendar = ObjectUtil.mustBeDefined(calendar.get(year));
-
-          // Month
-          if (!yearCalendar.has(month)) {
-            yearCalendar.set(month, []);
-          }
-          const monthCalendar = ObjectUtil.mustBeDefined(yearCalendar.get(month));
-
-          // Event
-          monthCalendar.push(event);
-          this.eventCount++;
-        });
-        this.eventCalendar = calendar;
+    this.events
+      // Filter by search terms
+      .filter(event => {
+        const match = this.search.trim().toLowerCase();
+        return match === '' || event.title.toLowerCase().includes(match);
       })
-    );
+
+      // Filter by Date
+      .filter(event => new Date(event.start).getTime() >= this.selectedFromDate.getTime())
+
+      // Filter by category
+      .filter(event => event.categories.some(category => this.selectedCategories.some(c => c === category)))
+      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+      .forEach(event => {
+        const date = new Date(event.start);
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        // Year
+        if (!calendar.has(year)) {
+          calendar.set(year, new Map());
+        }
+        const yearCalendar = ObjectUtil.mustBeDefined(calendar.get(year));
+
+        // Month
+        if (!yearCalendar.has(month)) {
+          yearCalendar.set(month, []);
+        }
+        const monthCalendar = ObjectUtil.mustBeDefined(yearCalendar.get(month));
+
+        // Event
+        monthCalendar.push(event);
+        this.eventCount++;
+      });
+    this.eventCalendar = calendar;
   }
 
   useMapOrder(_a: unknown, _b: unknown) {
@@ -159,42 +209,6 @@ export class AppComponent implements OnDestroy {
 
   countChecked(categories: string[]): number {
     return categories.filter(category => this.selectedCategories.includes(category)).length;
-  }
-
-  openCategorySelect(): void {
-    const injector = Injector.create({
-      providers: [
-        {
-          provide: CategorySelectDialogComponent.CURRENT_CATEGORIES,
-          useValue: this.categories,
-        },
-      ],
-      parent: this.injector,
-    });
-    this.dialog
-      .open<CategorySelectDialogComponent, undefined, string[]>(CategorySelectDialogComponent, { injector })
-      .afterClosed()
-      .subscribe((categories?: string[]) => {
-        let navExtras: NavigationExtras = {
-          relativeTo: this.route,
-        };
-
-        if (categories !== undefined && categories.length > 0) {
-          navExtras = {
-            ...navExtras,
-            queryParams: {
-              categories: categories?.join(','),
-            },
-          };
-        }
-
-        this.router.navigate([], navExtras);
-        const isChanged = !ArrayUtil.equals(this.categories, categories);
-
-        if (isChanged) {
-          this.loadEvents(categories ?? []).subscribe(_ => this.toasterService.show('Dashboard bijgewerkt', '🤘'));
-        }
-      });
   }
 
   autoPlay(period = 5000): void {

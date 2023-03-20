@@ -140,12 +140,12 @@ mat-toolbar {
     flex-direction: column;
     gap: 3vh;
     align-items: center;
-    padding-top: 80px;
+    padding-top: 120px;
 
     @media (min-width:925px) {
         flex-wrap: wrap;
         align-items: flex-start;
-        height: calc(100vh - 50px - 100px);
+        height: calc(100vh - 50px - 120px);
 
     }
 }

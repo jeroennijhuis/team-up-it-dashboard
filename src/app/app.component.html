@@ -9,20 +9,20 @@
 </mat-form-field> -->
 
 <mat-toolbar>
-  <img class="rs-logo" src="assets/team-up-it-logo.png" (click)="openCategorySelect()" />
+  <img class="rs-logo" src="assets/team-up-it-logo.png" />
 
   
   <mat-form-field class="large" appearance="fill" subscriptSizing="dynamic">
     <mat-label>Zoek</mat-label>
 
-    <input matInput>
+    <input [formControl]="searchFormControl" matInput>
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
   <span class="example-spacer"></span>
 
   <mat-form-field appearance="fill" subscriptSizing="dynamic">
     <mat-label>Vanaf</mat-label>
-    <input matInput [min]="today" [matDatepicker]="picker">
+    <input matInput [min]="today" [matDatepicker]="picker" [formControl]="selectedFromDateFormControl">
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>

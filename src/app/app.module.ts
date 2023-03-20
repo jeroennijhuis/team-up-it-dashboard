@@ -8,7 +8,6 @@ import { TeamUpItService } from './services/team-up-it/team-up-it.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import myLocaleNl from '@angular/common/locales/nl';
-import { CategorySelectDialogModule } from './modules/category-select-dialog/category-select-dialog.module';
 import { ToasterModule } from './modules/toaster/toaster.module';
 import { MobileService } from './services/mobile/mobile.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +34,6 @@ registerLocaleData(myLocaleNl);
 
     ToasterModule,
     TeamUpItEventModule,
-    CategorySelectDialogModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
