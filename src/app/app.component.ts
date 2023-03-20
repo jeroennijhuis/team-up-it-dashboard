@@ -1,20 +1,7 @@
-import { Component, HostListener, Injector, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
-import {
-  count,
-  debounceTime,
-  distinctUntilChanged,
-  interval,
-  map,
-  Observable,
-  startWith,
-  Subject,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged, interval, map, startWith, Subject, take, takeUntil } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { Event } from './services/team-up-it/models/upcoming-events-response';
 import { ToasterService } from './modules/toaster/toaster.service';
 import { ObjectUtil } from './utils/object.util';
