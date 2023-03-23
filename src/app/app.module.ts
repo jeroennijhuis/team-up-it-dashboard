@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { registerLocaleData } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import myLocaleNl from '@angular/common/locales/nl';
 import { ToasterModule } from './modules/toaster/toaster.module';
 import { MobileService } from './services/mobile/mobile.service';
@@ -49,6 +49,7 @@ registerLocaleData(myLocaleNl);
   providers: [
     TeamUpItService,
     MobileService,
+    DatePipe,
     { provide: MAT_DATE_LOCALE, useValue: 'nl-NL' },
     { provide: DateAdapter, useClass: CustomDateAdapter },
   ],
