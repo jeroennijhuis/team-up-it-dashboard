@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
-import { debounceTime, forkJoin, interval, map, startWith, Subject, take, takeUntil, Observable, tap, combineLatest } from 'rxjs';
+import { debounceTime, forkJoin, map, Subject, take, takeUntil, Observable, tap, combineLatest } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Event } from './services/team-up-it/models/upcoming-events-response';
 import { ObjectUtil } from './utils/object.util';
@@ -169,7 +169,7 @@ export class AppComponent implements OnDestroy {
     const calendar = new Map<number, Map<number, Event[]>>();
     this.isLoading = true;
 
-    let events = this.events;
+    let events = this.events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
     const queryParams: Params = {};
 
     if (ObjectUtil.isDefined(search)) {
@@ -187,29 +187,14 @@ export class AppComponent implements OnDestroy {
       queryParams[this.categoriesParam] = categories.join(this.categorySplitter);
     }
 
-    events
-      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
-      .forEach(event => {
-        const date = new Date(event.start);
-        const year = date.getFullYear();
-        const month = date.getMonth();
-
-        // Year
-        if (!calendar.has(year)) {
-          calendar.set(year, new Map());
-        }
-        const yearCalendar = ObjectUtil.mustBeDefined(calendar.get(year));
-
-        // Month
-        if (!yearCalendar.has(month)) {
-          yearCalendar.set(month, []);
-        }
-        const monthCalendar = ObjectUtil.mustBeDefined(yearCalendar.get(month));
-
-        // Event
-        monthCalendar.push(event);
-        this.eventCount++;
+    groupBy(events, e => new Date(e.start).getFullYear()).forEach((yearEvents, year) => {
+      calendar.set(year, new Map());
+      groupBy(yearEvents, e => new Date(e.start).getMonth()).forEach((monthEvents, month) => {
+        calendar.get(year)?.set(month, monthEvents);
       });
+    });
+
+    this.eventCount = events.length;
     this.eventCalendar = calendar;
     this.isLoading = false;
 
@@ -257,4 +242,16 @@ export class AppComponent implements OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+}
+
+export function groupBy<K, V>(array: V[], grouper: (item: V) => K) {
+  return array.reduce((store, item) => {
+    const key = grouper(item);
+    if (!store.has(key)) {
+      store.set(key, [item]);
+    } else {
+      ObjectUtil.mustBeDefined(store.get(key)).push(item);
+    }
+    return store;
+  }, new Map<K, V[]>());
 }

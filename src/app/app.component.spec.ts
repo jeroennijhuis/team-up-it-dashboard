@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CustomDateAdapter } from './utils/custom.date.adapter';
 import { MatSelectModule } from '@angular/material/select';
+import { DatePipe } from '@angular/common';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -28,6 +29,7 @@ describe('AppComponent', () => {
         MatSelectModule,
       ],
       providers: [
+        DatePipe,
         { provide: TeamUpItService, useValue: teamUpItServiceStub },
         { provide: ToasterService, useValue: toasterServiceStub },
         { provide: MobileService, useValue: mobileServiceStub },
