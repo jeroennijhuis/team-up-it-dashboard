@@ -15,6 +15,7 @@ import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/mate
 import { CustomDateAdapter } from './utils/custom.date.adapter';
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
+import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -37,7 +38,7 @@ describe('AppComponent', () => {
         { provide: MAT_DATE_LOCALE, useValue: 'nl-NL' },
         { provide: DateAdapter, useClass: CustomDateAdapter },
       ],
-      declarations: [AppComponent],
+      declarations: [AppComponent, CategorySelectInputComponent],
     }).compileComponents();
   });
 

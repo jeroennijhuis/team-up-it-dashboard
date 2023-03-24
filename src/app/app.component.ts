@@ -11,7 +11,6 @@ import { DatePipe } from '@angular/common';
 import { ArrayUtil } from './utils/array.util';
 import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
 
-// TODO MARGIN RIGHT LIST VIEW
 // TODO HORIZTONAL x VERTICAL SCROLL
 // TODO SCSS CLEAN UP
 // TODO MODULE CLEAN UP
@@ -186,8 +185,21 @@ export class AppComponent implements OnDestroy {
     location.reload();
   }
 
+  @HostListener('wheel', ['$event'])
+  verticalToHorizontalScroll(event: TAny) {
+    if (this.isMobile) {
+      return;
+    }
+    const listElem = ObjectUtil.mustBeDefined(document.getElementById('list-view'));
+    listElem.scrollLeft += event.deltaY;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  log(x: TAny) {
+    console.log(x);
   }
 }
