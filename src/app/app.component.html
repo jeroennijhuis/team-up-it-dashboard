@@ -23,9 +23,9 @@
   
     <span class="spacer"></span>
   
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+    <mat-form-field appearance="fill" subscriptSizing="dynamic" (click)="picker.open()">
       <mat-label>Vanaf</mat-label>
-      <input matInput [min]="today" [matDatepicker]="picker" [formControl]="selectedFromDateFormControl">
+      <input matInput [min]="today" [matDatepicker]="picker" [formControl]="selectedFromDateFormControl" readonly >
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -37,7 +37,7 @@
 </mat-toolbar>
 
 <div class="events-content">
-  <div id="list-view" class="list-view" *ngIf="!isLoading" (scroll)="log($event)">
+  <div #listView id="listView" class="list-view" *ngIf="eventCalendar" [class.hidden]="isLoading" (scroll)="log($event)">
     <ng-container *ngFor="let year of eventCalendar | keyvalue : useMapOrder">
       <div *ngIf="!isMobile" class="divider-vertical">
         <div class="center-element">{{ year.key }}</div>

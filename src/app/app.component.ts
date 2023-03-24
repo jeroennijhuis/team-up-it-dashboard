@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
 import { debounceTime, forkJoin, map, Subject, take, takeUntil, Observable, tap, combineLatest } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
@@ -11,7 +11,6 @@ import { DatePipe } from '@angular/common';
 import { ArrayUtil } from './utils/array.util';
 import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
 
-// TODO HORIZTONAL x VERTICAL SCROLL
 // TODO SCSS CLEAN UP
 // TODO MODULE CLEAN UP
 // TODO VALIDATE INPUTS
@@ -43,6 +42,12 @@ export class AppComponent implements OnDestroy {
   isMobile?: boolean;
 
   @ViewChild(CategorySelectInputComponent) categorySelect!: CategorySelectInputComponent;
+  @ViewChild('listView', { static: false })
+  set listView(elem: ElementRef) {
+    if (ObjectUtil.isDefined(elem)) {
+      setTimeout(() => (this.isLoading = false));
+    }
+  }
 
   readonly today = new Date();
 
@@ -88,15 +93,17 @@ export class AppComponent implements OnDestroy {
           combineLatest([categories$, fromDate$, search$])
             .pipe(takeUntil(this.destroy$))
             .subscribe(([categories, fromDate, search]: [string[], Date | undefined, string | undefined]) => {
-              this.applyFilter(categories, fromDate, search);
+              this.eventCalendar = undefined;
+              this.isLoading = true;
+              this.eventCount = 0;
+
+              setTimeout(() => this.applyFilter(categories, fromDate, search));
             });
 
           this.selectedCategoriesFormControl.setValue(queryParams.categories);
 
           this.selectedFromDateFormControl.setValue(queryParams.fromDate);
           this.searchFormControl.setValue(queryParams.search);
-
-          this.isLoading = false;
         }
       );
   }
@@ -132,11 +139,7 @@ export class AppComponent implements OnDestroy {
   }
 
   applyFilter(categories: string[], fromDate?: Date, search?: string): void {
-    this.eventCalendar = undefined;
-    this.eventCount = 0;
-
     const calendar = new Map<number, Map<number, Event[]>>();
-    this.isLoading = true;
 
     let events = this.events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
     const queryParams: Params = {};
@@ -165,7 +168,7 @@ export class AppComponent implements OnDestroy {
 
     this.eventCount = events.length;
     this.eventCalendar = calendar;
-    this.isLoading = false;
+    // this.isLoading = false;
 
     this.router.navigate([''], {
       queryParams,
@@ -190,7 +193,7 @@ export class AppComponent implements OnDestroy {
     if (this.isMobile) {
       return;
     }
-    const listElem = ObjectUtil.mustBeDefined(document.getElementById('list-view'));
+    const listElem = ObjectUtil.mustBeDefined(document.getElementById('listView'));
     listElem.scrollLeft += event.deltaY;
   }
 

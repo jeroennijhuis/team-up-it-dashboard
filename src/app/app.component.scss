@@ -151,6 +151,10 @@ mat-toolbar {
     padding-top: 80px;
     overflow-x: auto;
 
+    &.hidden {
+        visibility: hidden;
+    }
+
     @media (min-width:925px) {
         flex-wrap: wrap;
         align-items: flex-start;
