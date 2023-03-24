@@ -12,56 +12,28 @@
 </mat-form-field> -->
 
 <mat-toolbar>
-  <img class="rs-logo" src="assets/team-up-it-logo.png" />
+  <img class="logo" src="assets/team-up-it-logo.png" />
 
+  <ng-container *ngIf="!isMobile">
+    <mat-form-field class="large" appearance="fill" subscriptSizing="dynamic">
+      <mat-label>Zoek</mat-label>
+      <input [formControl]="searchFormControl" matInput>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
   
-  <mat-form-field class="large" appearance="fill" subscriptSizing="dynamic">
-    <mat-label>Zoek</mat-label>
-    <input [formControl]="searchFormControl" matInput>
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
-  <span class="example-spacer"></span>
+    <span class="spacer"></span>
+  
+    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+      <mat-label>Vanaf</mat-label>
+      <input matInput [min]="today" [matDatepicker]="picker" [formControl]="selectedFromDateFormControl">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </ng-container>
+  
 
-  <mat-form-field appearance="fill" subscriptSizing="dynamic">
-    <mat-label>Vanaf</mat-label>
-    <input matInput [min]="today" [matDatepicker]="picker" [formControl]="selectedFromDateFormControl">
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+  <app-category-select-input class="large" [control]="selectedCategoriesFormControl"></app-category-select-input>
 
-  <mat-form-field class="large" appearance="fill" subscriptSizing="dynamic">
-    <mat-label>Filter</mat-label>
-    <mat-select [formControl]="selectedCategoriesFormControl" multiple>
-      <mat-select-trigger>
-        <!-- {{ selectedCategories | json }} -->
-        <span [ngSwitch]="selectedCategories.length">
-          <span *ngSwitchCase="0">Alles</span>
-          <span *ngSwitchCase="totalCategoryCount">Alles</span>
-          <span *ngSwitchCase="1">{{selectedCategories[0]}}</span>
-          <span *ngSwitchDefault>Meerdere ({{selectedCategories.length}})</span>
-        </span>
-      </mat-select-trigger>
-
-      <mat-expansion-panel class="filter" *ngFor="let group of categoryGroups | keyvalue; let i = index;"
-        [expanded]="i === selectedCategoryGroupIndex"
-        (expandedChange)="selectedCategoryGroupIndex = $event ? i : selectedCategoryGroupIndex === i ? undefined : selectedCategoryGroupIndex"
-        >
-        <mat-expansion-panel-header>
-          <mat-checkbox 
-          (change)="setCategoryGroup(group.value, $event.checked)"
-          [checked]="isAllChecked(group.value)"
-          (click)="$event.stopPropagation()" 
-          (keydown)="$event.stopPropagation()">
-          {{ group.key }}   <span *ngIf="isAnyChecked(group.value) && !isAllChecked(group.value) && selectedCategoryGroupIndex !== i">({{countChecked(group.value)}}/{{group.value.length}})</span>
-          </mat-checkbox>
-        </mat-expansion-panel-header>
-        <mat-option *ngFor="let category of group.value"
-          [value]="category">
-          {{category}}
-        </mat-option>
-      </mat-expansion-panel>
-    </mat-select>
-  </mat-form-field>
 </mat-toolbar>
 
 <div class="list-view" *ngIf="!isLoading">

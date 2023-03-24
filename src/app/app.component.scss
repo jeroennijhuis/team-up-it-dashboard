@@ -1,3 +1,5 @@
+$menu-height: 80px;
+
 .main-content {
     display: grid;
     align-items: center;
@@ -25,36 +27,39 @@
 }
 
 mat-toolbar {
-    height: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: $menu-height;
     padding: 0 20px;
     background-color: transparent;
     position: fixed;
     z-index: 1;
+    min-width: 100px;
 
-    mat-form-field {
-        min-width: 100px;
+    > *:not(.spacer,img) {
+        margin-left: 20px;
+        flex: auto;
+        
+        @media(min-width:925px) {
+            max-width: none;
+            max-width:  200px;
+        }
 
         &.large {
-            width: 400px;
-        }
-
-        &:not(:first-of-type) {  
-            margin-left: 20px;
+            @media(min-width:925px) {
+                max-width: 400px;
+            }
         }
     }
-}
-.example-spacer {
-    flex: 1 1 auto;
-  }
 
-.rs-logo {
-    cursor: pointer;
-    max-height: 9vh;
-    display: none;
-    margin-right: 20px;
-
-    @media (min-width:925px) {
+    .logo {
+        max-width: 100px;
         display: block;
+        max-height: $menu-height;
+    }
+
+    .spacer {
+        flex: 1 1 auto;
     }
 }
 
@@ -142,12 +147,13 @@ mat-toolbar {
     flex-direction: column;
     gap: 3vh;
     align-items: center;
-    padding-top: 120px;
+    padding-top: 80px;
 
     @media (min-width:925px) {
         flex-wrap: wrap;
         align-items: flex-start;
         height: calc(100vh - 50px - 120px);
+        padding-top: 120px;
 
     }
 }
@@ -326,16 +332,3 @@ mat-toolbar {
         transform: rotate(0deg);
     }
 }
-
-
-
-
-
-// .loader{
-//     position: fixed;
-//     left: 0px;
-//     top: 0px;
-//     width: 100%;
-//     height: 100%;
-//     z-index: 9999;
-//   }

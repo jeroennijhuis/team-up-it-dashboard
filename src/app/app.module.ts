@@ -21,11 +21,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { CustomDateAdapter } from './utils/custom.date.adapter';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
 
 registerLocaleData(myLocaleNl);
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CategorySelectInputComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
