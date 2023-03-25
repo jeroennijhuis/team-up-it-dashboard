@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { MobileService } from 'src/app/services/mobile/mobile.service';
 import { TeamUpItEvent } from 'src/app/services/team-up-it/models/upcoming-events-response';
 
@@ -27,7 +27,7 @@ export class TeamUpItEventComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit(): void {
     // not required for list view
-    this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => {
+    this.mobileService.isDesktop$.pipe(take(1)).subscribe(isDesktop => {
       if (isDesktop) {
         this.horizontalAlign();
       }
