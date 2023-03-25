@@ -172,8 +172,49 @@ mat-toolbar {
     }
 }
 
+.loader {
+    border: 8px solid #232323;
+    /* Light grey */
+    border-top: 8px solid #ffe000;
+    /* Dark Green */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spinloader 2s linear infinite;
+    margin: auto;
+
+}
+
+.loader img {
+    height: 120px;
+    width: 120px;
+    animation: spinlogo 2s linear infinite;
+}
+
+@keyframes spinloader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinlogo {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 
 ::ng-deep {
+
+    /* Datepicker*/ 
 
     .mat-datepicker-content {
         background-color: #232323;
@@ -222,8 +263,7 @@ mat-toolbar {
     }
 
 
-    /**/
-
+    /* form field */
 
     .mdc-text-field {
         background-color: #232323 !important;
@@ -238,7 +278,6 @@ mat-toolbar {
         }
     }    
 
-    /**/
     .mdc-menu-surface {
         background-color: #232323 !important;
     }
@@ -262,11 +301,8 @@ mat-toolbar {
             }
         }
     }
-     
-    //FIXME https://material.angular.io/components/select/overview
-    // panelClass="example-panel-{{panelColor.value}}" 
     
-    /**/
+    /* Extension panel */
 
     .mat-expansion-panel.filter {
         background-color: transparent;
@@ -294,46 +330,5 @@ mat-toolbar {
 
     .mdc-menu-surface{
         max-height: calc(100vh - 80px) !important; //FIXME MENU HEIGHT VAR
-    }
-}
-
-
-
-.loader {
-    border: 8px solid #232323;
-    /* Light grey */
-    border-top: 8px solid #ffe000;
-    /* Dark Green */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spinloader 2s linear infinite;
-    margin: auto;
-
-}
-
-.loader img {
-    height: 120px;
-    width: 120px;
-    animation: spinlogo 2s linear infinite;
-}
-
-@keyframes spinloader {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes spinlogo {
-    0% {
-        transform: rotate(360deg);
-    }
-
-    100% {
-        transform: rotate(0deg);
     }
 }

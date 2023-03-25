@@ -11,10 +11,14 @@ import { ArrayUtil } from './utils/array.util';
 import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
 import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-response';
 
-// TODO SCSS CLEAN UP
-// TODO MOBILE BACKGROUND BUG
-// TODO MOBILE YEAR ORIENTATION BUG
-// TODO MOBILE TOOLBAR BACKGROUND ON SCROLL
+// TODO MOBILE BUGS
+//  - Category select white background in focused state
+//  - Background scrolls
+//  - Toolbar should have a darker background on scroll
+// TODO FIREFOX BUGS
+//  - Year not aligned center
+//  - Events in reversed order
+//  - Font not loaded
 
 @Component({
   selector: 'app-root',

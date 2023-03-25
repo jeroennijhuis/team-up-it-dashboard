@@ -81,10 +81,6 @@
     }
 }
 
-::ng-deep .mat-content.mat-content-hide-toggle {
-    margin: 0px !important;
-}
-
 .rs-event-info {
     text-align: left;
 
@@ -117,4 +113,8 @@ mat-chip {
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+::ng-deep .mat-content.mat-content-hide-toggle {
+    margin: 0px !important;
 }

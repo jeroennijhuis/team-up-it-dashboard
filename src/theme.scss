@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 @use './styles/theme/team-up-it-event.component.theme.scss' as team-up-it-event;
-@use './styles/theme/material.theme.scss' as custom-material;
 
 @import './styles/colors.scss';
 
@@ -40,5 +39,3 @@ $theme: mat.define-light-theme((
 @include mat.all-component-themes($theme);
 @include app-theme($theme);
 @include team-up-it-event.theme($theme);
-// @include custom-material.theme($theme);
-
