@@ -32,6 +32,7 @@ export class AppComponent implements OnDestroy {
 
   //Events
   events: TeamUpItEvent[] = [];
+  categories?: string[];
   eventCount = 0;
   eventCalendar?: Map<number, Map<number, TeamUpItEvent[]>>;
   highlightedEvent?: TeamUpItEvent;
@@ -63,7 +64,7 @@ export class AppComponent implements OnDestroy {
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
 
     const categories$ = this.selectedCategoriesFormControl.valueChanges.pipe(
-      map(x => (ObjectUtil.isDefined(x) ? ObjectUtil.mustBeDefined(x).filter(y => y !== '') : []))
+      map(x => (ObjectUtil.isDefined(x) ? ObjectUtil.mustBeDefined(x) : []))
     );
     const fromDate$ = this.selectedFromDateFormControl.valueChanges.pipe(
       map(x =>
@@ -77,11 +78,12 @@ export class AppComponent implements OnDestroy {
       map(x => (ObjectUtil.isDefined(x) && x.trim() !== '' ? ObjectUtil.mustBeDefined(x.trim()) : undefined))
     );
 
-    forkJoin([this.loadEvents(), this.loadQueryParams()])
+    forkJoin([this.loadEvents(), this.loadCategories(), this.loadQueryParams()])
       .pipe(take(1))
       .subscribe(
-        ([_events, queryParams]: [
+        ([_events, categories, queryParams]: [
           TeamUpItEvent[],
+          string[],
           {
             categories?: string[];
             fromDate?: Date;
@@ -98,7 +100,7 @@ export class AppComponent implements OnDestroy {
               setTimeout(() => this.applyFilter(categories, fromDate, search));
             });
 
-          this.selectedCategoriesFormControl.setValue(queryParams.categories);
+          this.selectedCategoriesFormControl.setValue(queryParams.categories ?? categories);
           this.selectedFromDateFormControl.setValue(queryParams.fromDate);
           this.searchFormControl.setValue(queryParams.search);
         }
@@ -118,6 +120,13 @@ export class AppComponent implements OnDestroy {
     );
   }
 
+  private loadCategories(): Observable<string[]> {
+    return this.service.getCategories().pipe(
+      take(1),
+      tap(categories => (this.categories = categories))
+    );
+  }
+
   private loadQueryParams(): Observable<{ categories?: string[]; fromDate?: Date; search?: string }> {
     return this.route.queryParams.pipe(
       debounceTime(10), //because sometimes the first emit is undefined
@@ -129,9 +138,9 @@ export class AppComponent implements OnDestroy {
 
         return {
           categories: ObjectUtil.isDefined(categoriesValue)
-            ? Array.isArray(categoriesValue)
-              ? (categoriesValue as string[])
-              : (categoriesValue as string).split(',')
+            ? (Array.isArray(categoriesValue) ? (categoriesValue as string[]) : (categoriesValue as string).split(',')).filter(
+                c => c !== ''
+              )
             : undefined,
           fromDate: ObjectUtil.isDefined(fromDateValue) ? new Date(fromDateValue) : undefined,
           search: searchValue,

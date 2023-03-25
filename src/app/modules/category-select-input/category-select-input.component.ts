@@ -1,7 +1,6 @@
 import { ObjectUtil } from './../../utils/object.util';
 import { Component, Input, OnInit } from '@angular/core';
 import { TeamUpItService } from 'src/app/services/team-up-it/team-up-it.service';
-import { take } from 'rxjs';
 import { CategoryUtil } from 'src/app/utils/category.util';
 import { FormControl } from '@angular/forms';
 
@@ -15,9 +14,7 @@ export interface ICategory {
   templateUrl: './category-select-input.component.html',
   styleUrls: ['./category-select-input.component.scss'],
 })
-export class CategorySelectInputComponent implements OnInit {
-  @Input() control!: FormControl<string[] | undefined>;
-
+export class CategorySelectInputComponent {
   totalCategoryCount?: number;
   selectedCategoryGroupIndex?: number;
 
@@ -31,30 +28,20 @@ export class CategorySelectInputComponent implements OnInit {
     ['Tribes', this.tribeCategories],
   ]);
 
-  constructor(private readonly service: TeamUpItService) {}
+  @Input() control!: FormControl<string[] | undefined>;
+  @Input() set categories(value: string[]) {
+    this.totalCategoryCount = value.length;
 
-  ngOnInit(): void {
-    this.service
-      .getCategories()
-      .pipe(take(1))
-      .subscribe(categories => {
-        this.totalCategoryCount = categories.length;
-
-        if (ObjectUtil.isUndefined(this.control.value)) {
-          this.control.setValue(categories);
-        }
-
-        categories.forEach(c => {
-          const category = { key: c, label: CategoryUtil.getLabel(c) };
-          if (CategoryUtil.isChapter(c)) {
-            this.chapterCategories.push(category);
-          } else if (CategoryUtil.isTribe(c)) {
-            this.tribeCategories.push(category);
-          } else {
-            this.generalCategories.push(category);
-          }
-        });
-      });
+    value.forEach(c => {
+      const category = { key: c, label: CategoryUtil.getLabel(c) };
+      if (CategoryUtil.isChapter(c)) {
+        this.chapterCategories.push(category);
+      } else if (CategoryUtil.isTribe(c)) {
+        this.tribeCategories.push(category);
+      } else {
+        this.generalCategories.push(category);
+      }
+    });
   }
 
   isAllChecked(categories: ICategory[]): boolean {
