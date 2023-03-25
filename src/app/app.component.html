@@ -30,27 +30,25 @@
 
 </mat-toolbar>
 
-<div class="events-content">
-  <div #listView id="listView" class="list-view" *ngIf="eventCalendar" [class.hidden]="isLoading">
-    <ng-container *ngFor="let year of eventCalendar | keyvalue : useMapOrder">
-      <div *ngIf="!isMobile" class="divider-vertical">
-        <div class="center-element">{{ year.key }}</div>
-      </div>
-      <ng-container *ngFor="let month of year.value | keyvalue : useMapOrder; let i = index">
-        <div class="app-row" *ngFor="let event of month.value; let i = index">
-          <div *ngIf="i === 0" class="divider-horizontal">
-            {{ event.start | date : 'MMMM' : '' : 'nl' }}
-          </div>
-          <app-team-up-it-event
-            [event]="event"
-            [isOpened]="event === highlightedEvent"
-            (opened)="highlightedEvent = event"
-            (closed)="highlightedEvent = event === highlightedEvent ? undefined : highlightedEvent">
-          </app-team-up-it-event>
+<div #listView id="listView" class="list-view" *ngIf="eventCalendar" [class.hidden]="isLoading">
+  <ng-container *ngFor="let year of eventCalendar | keyvalue : useMapOrder">
+    <div *ngIf="!isMobile" class="divider-vertical">
+      <div class="center-element">{{ year.key }}</div>
+    </div>
+    <ng-container *ngFor="let month of year.value | keyvalue : useMapOrder; let i = index">
+      <div class="app-row" *ngFor="let event of month.value; let i = index">
+        <div *ngIf="i === 0" class="divider-horizontal">
+          {{ event.start | date : 'MMMM' : '' : 'nl' }}
         </div>
-      </ng-container>
+        <app-team-up-it-event
+          [event]="event"
+          [isOpened]="event === highlightedEvent"
+          (opened)="highlightedEvent = event"
+          (closed)="highlightedEvent = event === highlightedEvent ? undefined : highlightedEvent">
+        </app-team-up-it-event>
+      </div>
     </ng-container>
-  </div>
+  </ng-container>
 </div>
 
 
