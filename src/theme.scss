@@ -1,8 +1,10 @@
 @use '@angular/material' as mat;
 @use './styles/theme/team-up-it-event.component.theme.scss' as team-up-it-event;
 @use './styles/theme/material.theme.scss' as custom-material;
-@include mat.core();
+
 @import './styles/colors.scss';
+
+@include mat.core();
 
 // Config
 

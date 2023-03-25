@@ -6,7 +6,6 @@ import { EventCategoriesResponse } from './models/event-categories-response';
 
 @Injectable()
 export class TeamUpItService {
-  //TODO CACHE
   private readonly basePath = 'https://calendar.teamupit.nl';
   private readonly defaultHeaders = new HttpHeaders();
 

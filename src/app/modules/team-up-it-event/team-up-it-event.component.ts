@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { MobileService } from 'src/app/services/mobile/mobile.service';
-import { Event } from 'src/app/services/team-up-it/models/upcoming-events-response';
+import { TeamUpItEvent } from 'src/app/services/team-up-it/models/upcoming-events-response';
 
 @Component({
   selector: 'app-team-up-it-event',
@@ -12,7 +12,7 @@ export class TeamUpItEventComponent implements OnInit, AfterViewInit, OnDestroy 
   private readonly destroy$ = new Subject<void>();
 
   @ViewChild('detailCard') detailCard!: ElementRef;
-  @Input() event!: Event;
+  @Input() event!: TeamUpItEvent;
   @Input() isOpened = false;
   @Output() opened = new EventEmitter<void>();
   @Output() closed = new EventEmitter<void>();

@@ -2,7 +2,6 @@ import { Component, HostListener, OnDestroy, ViewChild, ElementRef } from '@angu
 import { TeamUpItService } from './services/team-up-it/team-up-it.service';
 import { debounceTime, forkJoin, map, Subject, take, takeUntil, Observable, tap, combineLatest } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Event } from './services/team-up-it/models/upcoming-events-response';
 import { ObjectUtil } from './utils/object.util';
 import { TAny } from './utils/types';
 import { MobileService } from './services/mobile/mobile.service';
@@ -10,10 +9,9 @@ import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ArrayUtil } from './utils/array.util';
 import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
+import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-response';
 
 // TODO SCSS CLEAN UP
-// TODO MODULE CLEAN UP
-// TODO VALIDATE INPUTS
 // TODO MOBILE BACKGROUND BUG
 // TODO MOBILE YEAR ORIENTATION BUG
 // TODO MOBILE TOOLBAR BACKGROUND ON SCROLL
@@ -33,13 +31,19 @@ export class AppComponent implements OnDestroy {
   private readonly dateFormat = 'yyyy-MM-dd';
 
   //Events
-  events: Event[] = [];
+  events: TeamUpItEvent[] = [];
   eventCount = 0;
-  eventCalendar?: Map<number, Map<number, Event[]>>;
-  highlightedEvent?: Event;
+  eventCalendar?: Map<number, Map<number, TeamUpItEvent[]>>;
+  highlightedEvent?: TeamUpItEvent;
 
   isLoading = true;
   isMobile?: boolean;
+
+  readonly today = new Date();
+
+  selectedCategoriesFormControl = new FormControl<string[] | undefined>(undefined, { nonNullable: true });
+  selectedFromDateFormControl = new FormControl<Date | undefined>(this.today);
+  searchFormControl = new FormControl<string | undefined>(undefined);
 
   @ViewChild(CategorySelectInputComponent) categorySelect!: CategorySelectInputComponent;
   @ViewChild('listView', { static: false })
@@ -48,12 +52,6 @@ export class AppComponent implements OnDestroy {
       setTimeout(() => (this.isLoading = false));
     }
   }
-
-  readonly today = new Date();
-
-  selectedCategoriesFormControl = new FormControl<string[] | undefined>([], { nonNullable: true });
-  selectedFromDateFormControl = new FormControl<Date | undefined>(this.today);
-  searchFormControl = new FormControl<string | undefined>(undefined);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -65,7 +63,7 @@ export class AppComponent implements OnDestroy {
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
 
     const categories$ = this.selectedCategoriesFormControl.valueChanges.pipe(
-      map(x => (ObjectUtil.isDefined(x) ? ObjectUtil.mustBeDefined(x) : []))
+      map(x => (ObjectUtil.isDefined(x) ? ObjectUtil.mustBeDefined(x).filter(y => y !== '') : []))
     );
     const fromDate$ = this.selectedFromDateFormControl.valueChanges.pipe(
       map(x =>
@@ -83,7 +81,7 @@ export class AppComponent implements OnDestroy {
       .pipe(take(1))
       .subscribe(
         ([_events, queryParams]: [
-          Event[],
+          TeamUpItEvent[],
           {
             categories?: string[];
             fromDate?: Date;
@@ -101,14 +99,18 @@ export class AppComponent implements OnDestroy {
             });
 
           this.selectedCategoriesFormControl.setValue(queryParams.categories);
-
           this.selectedFromDateFormControl.setValue(queryParams.fromDate);
           this.searchFormControl.setValue(queryParams.search);
         }
       );
   }
 
-  private loadEvents(): Observable<Event[]> {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private loadEvents(): Observable<TeamUpItEvent[]> {
     return this.service.getUpcomingEvents().pipe(
       take(1),
       map(result => result.upcomingEvents),
@@ -138,8 +140,16 @@ export class AppComponent implements OnDestroy {
     );
   }
 
-  applyFilter(categories: string[], fromDate?: Date, search?: string): void {
-    const calendar = new Map<number, Map<number, Event[]>>();
+  useMapOrder(_a: unknown, _b: unknown) {
+    return 1;
+  }
+
+  onFilterChange(categories: Map<string, boolean>, key: string, checked: boolean) {
+    categories.set(key, checked);
+  }
+
+  private applyFilter(categories: string[], fromDate?: Date, search?: string): void {
+    const calendar = new Map<number, Map<number, TeamUpItEvent[]>>();
 
     let events = this.events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
     const queryParams: Params = {};
@@ -154,7 +164,7 @@ export class AppComponent implements OnDestroy {
       queryParams[this.fromDateParam] = this.datePipe.transform(fromDate, this.dateFormat);
     }
 
-    if (categories.length !== this.categorySelect.totalCategoryCount) {
+    if (ObjectUtil.isDefined(categories) && categories.length !== this.categorySelect.totalCategoryCount) {
       events = events.filter(event => event.categories.some(category => categories.some(c => c === category)));
       queryParams[this.categoriesParam] = categories.join(this.categorySplitter);
     }
@@ -168,19 +178,10 @@ export class AppComponent implements OnDestroy {
 
     this.eventCount = events.length;
     this.eventCalendar = calendar;
-    // this.isLoading = false;
 
     this.router.navigate([''], {
       queryParams,
     });
-  }
-
-  useMapOrder(_a: unknown, _b: unknown) {
-    return 1;
-  }
-
-  onFilterChange(categories: Map<string, boolean>, key: string, checked: boolean) {
-    categories.set(key, checked);
   }
 
   @HostListener('window:popstate', ['$event'])
@@ -189,20 +190,11 @@ export class AppComponent implements OnDestroy {
   }
 
   @HostListener('wheel', ['$event'])
-  verticalToHorizontalScroll(event: TAny) {
+  private verticalToHorizontalScroll(event: TAny) {
     if (this.isMobile) {
       return;
     }
     const listElem = ObjectUtil.mustBeDefined(document.getElementById('listView'));
     listElem.scrollLeft += event.deltaY;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  log(x: TAny) {
-    console.log(x);
   }
 }
