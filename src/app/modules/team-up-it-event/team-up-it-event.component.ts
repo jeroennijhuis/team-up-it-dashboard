@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { MobileService } from 'src/app/services/mobile/mobile.service';
 import { TeamUpItEvent } from 'src/app/services/team-up-it/models/upcoming-events-response';
 

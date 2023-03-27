@@ -1,6 +1,5 @@
 import { ObjectUtil } from './../../utils/object.util';
-import { Component, Input, OnInit } from '@angular/core';
-import { TeamUpItService } from 'src/app/services/team-up-it/team-up-it.service';
+import { Component, Input } from '@angular/core';
 import { CategoryUtil } from 'src/app/utils/category.util';
 import { FormControl } from '@angular/forms';
 
