@@ -33,7 +33,7 @@
 <div #listView id="listView" class="list-view" *ngIf="eventCalendar" [class.hidden]="isLoading">
   <ng-container *ngFor="let year of eventCalendar | keyvalue">
     <div *ngIf="!isMobile" class="divider-vertical">
-      <div class="center-element">{{ year.key }}</div>
+      <div class="center-element"><div class="year">{{ year.key }}</div></div>
     </div>
     <ng-container *ngFor="let month of year.value | keyvalue; let i = index">
       <div class="app-row" *ngFor="let event of month.value; let i = index">

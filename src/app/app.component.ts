@@ -15,10 +15,6 @@ import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-resp
 //  - Category select white background in focused state
 //  - Background scrolls
 //  - Toolbar should have a darker background on scroll
-// TODO FIREFOX BUGS
-//  - Year not aligned center
-//  - Events in reversed order
-//  - Font not loaded
 
 @Component({
   selector: 'app-root',
@@ -27,6 +23,8 @@ import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-resp
 })
 export class AppComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
+
+  temp = Array.from(Array(50).keys());
 
   private readonly searchParam = 'search';
   private readonly categoriesParam = 'categories';
@@ -184,6 +182,10 @@ export class AppComponent implements OnDestroy {
         calendar.get(year)?.set(month, monthEvents);
       });
     });
+
+    // calendar.forEach((value, key) => {
+    //   const x = new Map(Array.from(value, a => a.reverse()));
+    // });
 
     this.eventCount = events.length;
     this.eventCalendar = calendar;

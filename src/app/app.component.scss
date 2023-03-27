@@ -111,9 +111,6 @@ mat-toolbar {
             font-size: 30px;
             font-weight: bold;
     
-            -ms-writing-mode: tb-rl;
-            -webkit-writing-mode: vertical-lr;
-            writing-mode: vertical-lr;
             -moz-transform: scale(-1, -1);
             -webkit-transform: scale(-1, -1);
             -o-transform: scale(-1, -1);
@@ -129,16 +126,20 @@ mat-toolbar {
                 border-left: 2px solid white;
             }
             &:before {
-                bottom: 55%;
+                bottom: 60%;
                 top: 20%;
             }
             &:after {
-                top: 55%;
+                top: 60%;
                 bottom: 20%;
             }
         }
     }
     
+}
+
+.year {
+    transform: rotate(90deg);
 }
 
 .list-view {
