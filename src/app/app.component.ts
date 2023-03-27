@@ -153,10 +153,6 @@ export class AppComponent implements OnDestroy {
     );
   }
 
-  useMapOrder(_a: unknown, _b: unknown) {
-    return 1;
-  }
-
   onFilterChange(categories: Map<string, boolean>, key: string, checked: boolean) {
     categories.set(key, checked);
   }
