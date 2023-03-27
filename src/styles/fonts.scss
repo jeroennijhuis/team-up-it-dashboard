@@ -1,5 +1,9 @@
-  @font-face {
-    font-family: Rockstars;
-    src: url('/assets/fonts/353190_1_0.woff') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-         url('/assets/fonts/353190_1_0.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
-  }
+@font-face {
+  font-family: Rockstars;
+  src: url('../assets/fonts/353190_1_0.eot');
+  src: url('../assets/fonts/353190_1_0.woff') format('woff'),
+      url('../assets/fonts/353190_1_0.woff2') format('woff2'),
+      url('../assets/fonts/353190_1_0.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
