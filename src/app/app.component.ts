@@ -10,6 +10,9 @@ import { DatePipe } from '@angular/common';
 import { ArrayUtil } from './utils/array.util';
 import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
 import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-response';
+import { ToasterService } from './modules/toaster/toaster.service';
+import { HttpParams } from '@angular/common/http';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 // TODO MOBILE BUGS
 //  - Category select white background in focused state
@@ -59,7 +62,9 @@ export class AppComponent implements OnDestroy {
     private readonly service: TeamUpItService,
     private readonly mobileService: MobileService,
     private readonly router: Router,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly toasterService: ToasterService,
+    private readonly clipboard: Clipboard
   ) {
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
 
@@ -216,5 +221,18 @@ export class AppComponent implements OnDestroy {
   onWindowScroll() {
     const offset = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     this.hasScrolled = offset >= 80;
+  }
+
+  copyIcal(): void {
+    let url = 'https://calendar.teamupit.nl/upcomingeventscalendar.ics';
+
+    const categories = this.selectedCategoriesFormControl.value;
+    if (ObjectUtil.isDefined(categories) && categories.length !== this.categorySelect.totalCategoryCount) {
+      const params = new HttpParams().set(this.categoriesParam, categories.join(this.categorySplitter));
+      url += `?${params.toString()}`;
+    }
+
+    this.clipboard.copy(url);
+    this.toasterService.show('De kalender link (.ics) is gekopieerd naar uw klembord.', '🤘');
   }
 }

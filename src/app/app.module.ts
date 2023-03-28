@@ -1,3 +1,4 @@
+import { MatButtonModule } from '@angular/material/button';
 import { TeamUpItEventModule } from './modules/team-up-it-event/team-up-it-event.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -18,6 +19,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CustomDateAdapter } from './utils/custom.date.adapter';
 import { CategorySelectInputModule } from './modules/category-select-input/category-select-input.module';
+import { ToasterModule } from './modules/toaster/toaster.module';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 registerLocaleData(myLocaleNl);
 
@@ -30,11 +33,14 @@ registerLocaleData(myLocaleNl);
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    ClipboardModule,
 
     CategorySelectInputModule,
     TeamUpItEventModule,
+    ToasterModule,
 
     /* Material */
+    MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,

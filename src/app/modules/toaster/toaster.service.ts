@@ -8,7 +8,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 export class ToasterService {
   private static readonly horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   private static readonly verticalPosition: MatSnackBarVerticalPosition = 'top';
-  private static readonly duration = 3000;
+  private static readonly duration = 5000;
   constructor(private readonly snackBar: MatSnackBar) {}
 
   show(message: string, action?: string) {
