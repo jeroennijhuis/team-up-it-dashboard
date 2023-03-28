@@ -14,7 +14,6 @@ import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-resp
 // TODO MOBILE BUGS
 //  - Category select white background in focused state
 //  - Background scrolls
-//  - Toolbar should have a darker background on scroll
 
 @Component({
   selector: 'app-root',
@@ -23,8 +22,6 @@ import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-resp
 })
 export class AppComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
-
-  temp = Array.from(Array(50).keys());
 
   private readonly searchParam = 'search';
   private readonly categoriesParam = 'categories';
@@ -41,6 +38,7 @@ export class AppComponent implements OnDestroy {
 
   isLoading = true;
   isMobile?: boolean;
+  hasScrolled = false;
 
   readonly today = new Date();
 
@@ -183,10 +181,6 @@ export class AppComponent implements OnDestroy {
       });
     });
 
-    // calendar.forEach((value, key) => {
-    //   const x = new Map(Array.from(value, a => a.reverse()));
-    // });
-
     this.eventCount = events.length;
     this.eventCalendar = calendar;
 
@@ -195,11 +189,17 @@ export class AppComponent implements OnDestroy {
     });
   }
 
+  /*
+   * Refreshes the page on history back
+   */
   @HostListener('window:popstate', ['$event'])
   private onPopState(_event: TAny) {
     location.reload();
   }
 
+  /*
+   * Maps vertical scrolling to horizontal
+   */
   @HostListener('wheel', ['$event'])
   private verticalToHorizontalScroll(event: TAny) {
     if (this.isMobile) {
@@ -207,5 +207,14 @@ export class AppComponent implements OnDestroy {
     }
     const listElem = ObjectUtil.mustBeDefined(document.getElementById('listView'));
     listElem.scrollLeft += event.deltaY;
+  }
+
+  /*
+   * Listens to scroll position
+   */
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const offset = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.hasScrolled = offset >= 80;
   }
 }

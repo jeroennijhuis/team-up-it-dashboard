@@ -36,6 +36,15 @@ mat-toolbar {
     z-index: 1;
     min-width: 100px;
 
+
+    &.scrolled {
+        background-color: rgba(23, 23, 23, 0.7);
+        transition: background-color 1s ease;
+        img {
+            margin: 0 auto;
+        }
+    }
+
     > *:not(.spacer,img) {
         margin-left: 20px;
         flex: auto;

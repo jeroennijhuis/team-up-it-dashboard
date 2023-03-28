@@ -5,7 +5,7 @@
   </div>
 </div>
 
-<mat-toolbar>
+<mat-toolbar [class.scrolled]="hasScrolled">
   <img class="logo" src="assets/team-up-it-logo.png" />
 
   <ng-container *ngIf="!isMobile">
@@ -24,7 +24,6 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </ng-container>
-  
 
   <app-category-select-input *ngIf="categories !== undefined" class="large" [categories]="categories" [control]="selectedCategoriesFormControl"></app-category-select-input>
 
