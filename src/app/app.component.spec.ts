@@ -29,7 +29,7 @@ describe('AppComponent', () => {
         MatDatepickerModule,
         MatNativeDateModule,
         MatSelectModule,
-        MatIconModule
+        MatIconModule,
       ],
       providers: [
         DatePipe,
