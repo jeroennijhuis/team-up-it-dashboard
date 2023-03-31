@@ -15,8 +15,22 @@ import { HttpParams } from '@angular/common/http';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 // TODO MOBILE BUGS
-//  - Category select white background in focused state
 //  - Background scrolls
+
+// TODO KNOWN ISSUES
+// - SWITCHING TO MOBILE HIDES CURRENT FILTERS
+
+// TODO BACKLOG
+// - IMPLEMENT ALL ROCKSTARS FONT (INCL BOLD)
+// - CHECKBOXES
+//   - SMALLER/BOLD
+//   - REMOVE WHITE BORDER
+// - EVEN ITEMS RESTYLE
+// - REMOVE DATE FILTER
+// - MOBILE
+//   - TOP RIGHT CORNER FILTER AND SEARCH
+//   - ICS BUTTON TO BOTTOM RIGHT (CHANGE ICON)
+// - PNG TO SVG
 
 @Component({
   selector: 'app-root',

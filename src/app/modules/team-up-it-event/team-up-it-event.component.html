@@ -17,6 +17,9 @@
         <div class="summary">
           <span class="title vertical-center">{{ event.title }}</span>
         </div>
+        <mat-icon *ngIf="!isOpened" class="expand">expand_more</mat-icon>
+        <mat-icon *ngIf="isOpened" class="expand">expand_less</mat-icon>
+
       </mat-card-header>
     </mat-card>
   </mat-expansion-panel-header>
