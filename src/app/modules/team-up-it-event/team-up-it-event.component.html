@@ -1,7 +1,6 @@
 <mat-expansion-panel
   class="rs-event"
   hideToggle
-  [class.closed]="!isOpened"
   [expanded]="isOpened"
   (opened)="opened.emit()"
   (closed)="closed.emit()">
@@ -15,7 +14,7 @@
           </span>
         </div>
         <div class="summary">
-          <span class="title vertical-center">{{ event.title }}</span>
+          <span class="max-lines-3 title vertical-center">{{ event.title }}</span>
         </div>
         <mat-icon *ngIf="!isOpened" class="expand">expand_more</mat-icon>
         <mat-icon *ngIf="isOpened" class="expand">expand_less</mat-icon>
@@ -25,10 +24,21 @@
   </mat-expansion-panel-header>
   <div #detailCard class="rs-event-detail">
     <div class="info">
+      <p class="max-lines-3">{{event.description}}</p>
+      <div class="category-list">
+        <div class="category" *ngFor="let category of event.categories">
+          {{ category }}
+        </div>
+      </div>
       <table>
+        <colgroup>
+          <col span="1" style="width: 40%;">
+          <col span="1" style="width: 60%;">
+        </colgroup>
         <tr>
           <td class="rs-event-info">
-            <img src="/assets/clock.png" class="rs-icon"/> <span>
+            <img src="/assets/clock.png" class="rs-icon"/> 
+            <span>
               {{ event.start | date : 'HH:mm' }} - {{ event.end | date : 'HH:mm' }}
             </span>
           </td>
@@ -41,19 +51,10 @@
             <span *ngIf="!event.locationLink">{{ event.location }}</span>
           </td>
         </tr>
-        <tr>
-          <td class="rs-event-info" colspan="2">
-            <mat-chip-listbox aria-label="Categories">
-              <mat-chip mat-primary *ngFor="let category of event.categories">
-                {{ category }}
-              </mat-chip>
-            </mat-chip-listbox>
-          </td>
-        </tr>
       </table>
     </div>
-    <button mat-accent class="team-up-it-button" mat-raised-button (click)="goToSignUpPage()">
-      <img src="/assets/rubber_duck.png" />Ga naar Team Up IT
+    <button class="team-up-it-button" (click)="goToSignUpPage()">
+      <span>Ga naar Team Up IT</span><span class="navigate">▸▸</span>
     </button>
   </div>
 </mat-expansion-panel>
