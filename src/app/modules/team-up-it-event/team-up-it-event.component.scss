@@ -2,6 +2,10 @@
     padding: 0px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
     border-radius: 0px;
+
+    &.closed {
+        opacity: 0.85;
+    }
 }
 
 .rs-event-detail {
@@ -42,7 +46,7 @@
 
 
 .category-list {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 
     .category {
         margin: 0px 6px 5px 0px;
@@ -145,6 +149,10 @@
     padding: 5px;
     width: 25px;
     height: 25px;
+    float: left;
+    display: flex;
+    margin-right: 10px;
+    margin-bottom: 5px
 }
 
 mat-chip {

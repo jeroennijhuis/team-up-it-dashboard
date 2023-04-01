@@ -2,6 +2,7 @@
   class="rs-event"
   hideToggle
   [expanded]="isOpened"
+  [class.closed]="!isOpened"
   (opened)="opened.emit()"
   (closed)="closed.emit()">
   <mat-expansion-panel-header class="rs-event-summary">
@@ -37,16 +38,26 @@
         </colgroup>
         <tr>
           <td class="rs-event-info">
-            <img src="/assets/clock.png" class="rs-icon"/> 
+            <div class="rs-icon">
+              <img src="/assets/icons/clock.svg"/>
+            </div>
+             
             <span>
-              {{ event.start | date : 'HH:mm' }} - {{ event.end | date : 'HH:mm' }}
+              {{ event.start | date : 'HH:mm' }}-{{ event.end | date : 'HH:mm' }}
             </span>
           </td>
-          <td class="rs-event-info"><img src="/assets/chapter.png" class="rs-icon" /><span>{{ event.spots }}</span></td>
+          <td class="rs-event-info">
+            <div class="rs-icon">
+              <img src="/assets/icons/team.svg" />
+            </div>
+            <span>{{ event.spots }}</span>
+          </td>
         </tr>
         <tr *ngIf="event.location">
           <td class="rs-event-info" colspan="2">
-            <img src="/assets/location.png" class="rs-icon" />
+            <div class="rs-icon">
+              <img src="/assets/icons/house-love.svg" />
+            </div>
             <a *ngIf="event.locationLink" [href]="event.locationLink"><span>{{ event.location }}</span></a>
             <span *ngIf="!event.locationLink">{{ event.location }}</span>
           </td>
