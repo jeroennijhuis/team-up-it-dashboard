@@ -183,10 +183,11 @@ mat-toolbar {
 }
 
 .month-container {
-        height: 80px;
+    height: 80px;
     display: flex;
     margin: 0 auto 3vh auto;
     position: relative;
+    opacity: 0.85;
 }
 .month {
     background-color: #232323; //FIXME

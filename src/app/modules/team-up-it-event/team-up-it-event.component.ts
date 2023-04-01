@@ -42,15 +42,15 @@ export class TeamUpItEventComponent implements OnInit, AfterViewInit, OnDestroy 
   private horizontalAlign(): void {
     const currentHeight = this.detailCard.nativeElement.offsetHeight;
     const gap = document.documentElement.clientHeight * 0.01 * 3; // 3vh
-    const divider = 80 + gap;
-    let rows = Math.ceil((currentHeight - gap) / divider);
-    const remainder = (currentHeight - gap) % divider;
+    const blockHeight = 80 + gap;
+    let rows = Math.ceil((currentHeight - gap) / blockHeight);
+    const remainder = (currentHeight - gap) % blockHeight;
 
     if (remainder > 0) {
       rows++;
     }
 
-    this.renderer.setStyle(this.detailCard.nativeElement, 'height', `${rows * divider - gap}px`);
+    this.renderer.setStyle(this.detailCard.nativeElement, 'height', `${rows * blockHeight - gap}px`);
   }
 
   ngOnDestroy(): void {
