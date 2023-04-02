@@ -16,17 +16,19 @@
       (expandedChange)="selectedCategoryGroupIndex = $event ? i : selectedCategoryGroupIndex === i ? undefined : selectedCategoryGroupIndex"
       >
       <mat-expansion-panel-header>
-        <mat-checkbox 
-        (change)="setCategoryGroup(group.value, $event.checked)"
-        [checked]="isAllChecked(group.value)"
-        (click)="$event.stopPropagation()" 
-        (keydown)="$event.stopPropagation()">
-        {{ group.key }}   <span *ngIf="isAnyChecked(group.value) && !isAllChecked(group.value) && selectedCategoryGroupIndex !== i">({{countChecked(group.value)}}/{{group.value.length}})</span>
-        </mat-checkbox>
+        <label>
+          <app-checkbox (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" [checked]="isAllChecked(group.value)" (valueChange)="setCategoryGroup(group.value, $event)" 
+          [label]="group.key + ((isAnyChecked(group.value) && !isAllChecked(group.value) && selectedCategoryGroupIndex !== i) ? (' (' + countChecked(group.value).toString() + '/' + group.value.length.toString() + ')')  : '')">
+          </app-checkbox>
+        </label>
       </mat-expansion-panel-header>
-      <mat-option *ngFor="let category of group.value"
+      <mat-option id="option_{{group.key}}_{{category.key}}" *ngFor="let category of group.value"
         [value]="category.key">
-        {{category.label}}
+          <label for="option_{{group.key}}_{{category.key}}">
+            <app-checkbox [checked]="isChecked(category.key)" [label]="category.label">
+            </app-checkbox>
+          </label>
+          
       </mat-option>
     </mat-expansion-panel>
   </mat-select>

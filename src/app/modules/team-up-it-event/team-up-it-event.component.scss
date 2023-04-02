@@ -13,10 +13,6 @@
 
     .info {
         height: calc(100% - 40px);
-
-        table {
-            width: 100%;
-        }
     }
 
     .team-up-it-button {
@@ -43,7 +39,23 @@
     }
 }
 
+.info {
+    &-row {
+        display: table;
+        font-weight: 700;
 
+        > * {
+            float: left;
+            display: flex;
+            align-items: center;
+            margin-right: 2rem;
+        }
+    }
+
+    &-date {
+        width: 130px;
+    }
+}
 
 .category-list {
     margin-bottom: 15px;
@@ -124,23 +136,6 @@
     -webkit-line-clamp: 3; /* number of lines to show */
             line-clamp: 3; 
     -webkit-box-orient: vertical;
-}
-
-.rs-event-info {
-    text-align: left;
-
-    img {
-        margin-right: 10px;
-        display: block;
-        float: left;
-    }
-
-    span {
-        vertical-align: middle;
-        display: inherit;
-        padding-top: 5px;
-        font-weight: 700;
-    }
 }
 
 .rs-icon {

@@ -31,38 +31,32 @@
           {{ category }}
         </div>
       </div>
-      <table>
-        <colgroup>
-          <col span="1" style="width: 40%;">
-          <col span="1" style="width: 60%;">
-        </colgroup>
-        <tr>
-          <td class="rs-event-info">
-            <div class="rs-icon">
-              <img src="/assets/icons/clock.svg"/>
-            </div>
-             
-            <span>
-              {{ event.start | date : 'HH:mm' }}-{{ event.end | date : 'HH:mm' }}
-            </span>
-          </td>
-          <td class="rs-event-info">
-            <div class="rs-icon">
-              <img src="/assets/icons/team.svg" />
-            </div>
-            <span>{{ event.spots }}</span>
-          </td>
-        </tr>
-        <tr *ngIf="event.location">
-          <td class="rs-event-info" colspan="2">
-            <div class="rs-icon">
-              <img src="/assets/icons/house-love.svg" />
-            </div>
-            <a *ngIf="event.locationLink" [href]="event.locationLink"><span>{{ event.location }}</span></a>
-            <span *ngIf="!event.locationLink">{{ event.location }}</span>
-          </td>
-        </tr>
-      </table>
+      <div class="info-row">
+        <div class="info-date">
+          <div class="rs-icon">
+            <img src="/assets/icons/clock.svg"/>
+          </div>
+          <span>
+            {{ event.start | date : 'HH:mm' }}-{{ event.end | date : 'HH:mm' }}
+          </span>
+        </div>
+        <div>
+          <div class="rs-icon">
+            <img src="/assets/icons/team.svg" />
+          </div>
+          <span>{{ event.spots }}</span>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div>
+          <div class="rs-icon">
+            <img src="/assets/icons/house-love.svg" />
+          </div>
+          <a *ngIf="event.locationLink" [href]="event.locationLink"><span>{{ event.location }}</span></a>
+          <span *ngIf="!event.locationLink">{{ event.location }}</span>
+        </div>
+      </div>
     </div>
     <button class="team-up-it-button" (click)="goToSignUpPage()">
       <span>Ga naar Team Up IT</span><span class="navigate">▸▸</span>

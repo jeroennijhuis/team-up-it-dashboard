@@ -16,13 +16,6 @@
     </mat-form-field>
   
     <span class="spacer"></span>
-  
-    <mat-form-field appearance="fill" subscriptSizing="dynamic" (click)="picker.open()">
-      <mat-label>Vanaf</mat-label>
-      <input matInput [min]="today" [matDatepicker]="picker" [formControl]="selectedFromDateFormControl" readonly >
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
   </ng-container>
 
   <app-category-select-input *ngIf="categories !== undefined" class="large" [categories]="categories" [control]="selectedCategoriesFormControl"></app-category-select-input>

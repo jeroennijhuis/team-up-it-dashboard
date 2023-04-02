@@ -72,4 +72,8 @@ export class CategorySelectInputComponent {
       this.control.setValue([...newCategories, ...(this.control.value ?? [])]);
     }
   }
+
+  isChecked(category: string): boolean {
+    return ObjectUtil.isDefined(this.control.value) ? this.control.value.includes(category) : false;
+  }
 }

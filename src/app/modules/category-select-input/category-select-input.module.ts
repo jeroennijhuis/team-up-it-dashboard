@@ -7,8 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
+import { CheckboxModule } from '../checkbox/checkbox.module';
 
 @NgModule({
   declarations: [CategorySelectInputComponent],
@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatSelectModule,
     MatExpansionModule,
-    MatCheckboxModule,
+    CheckboxModule,
   ],
   exports: [CategorySelectInputComponent],
 })

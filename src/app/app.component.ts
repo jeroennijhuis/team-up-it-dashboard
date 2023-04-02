@@ -16,21 +16,18 @@ import { Clipboard } from '@angular/cdk/clipboard';
 
 // TODO MOBILE BUGS
 //  - Background scrolls
+//  - Event description not cut off after 3 lines.
+//  - Letter spacing on navigation icons in team up it button
 
 // TODO KNOWN ISSUES
 // - SWITCHING TO MOBILE HIDES CURRENT FILTERS
+// - MULTI-DAY EVENTS
 
 // TODO BACKLOG
-// - IMPLEMENT ALL ROCKSTARS FONT (INCL BOLD)
-// - CHECKBOXES
-//   - SMALLER/BOLD
-//   - REMOVE WHITE BORDER
-// - EVEN ITEMS RESTYLE
-// - REMOVE DATE FILTER
 // - MOBILE
 //   - TOP RIGHT CORNER FILTER AND SEARCH
 //   - ICS BUTTON TO BOTTOM RIGHT (CHANGE ICON)
-// - PNG TO SVG
+// - FIX EVENT DETAILS HEIGHT
 
 @Component({
   selector: 'app-root',
