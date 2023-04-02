@@ -1,65 +1,67 @@
-<mat-expansion-panel
-  class="rs-event"
-  hideToggle
-  [expanded]="isOpened"
-  [class.closed]="!isOpened"
-  (opened)="opened.emit()"
-  (closed)="closed.emit()">
-  <mat-expansion-panel-header class="rs-event-summary">
-    <mat-card class="card">
-      <mat-card-header class="header" [class.opened]="isOpened">
-        <div class="date vertical-center">
-          <span class="day"> {{ event.start | date : 'dd' }} </span>
-          <span class="weekday">
-            {{ event.start | date : 'EEEE' : '' : 'nl' }}
-          </span>
-        </div>
-        <div class="summary">
-          <span class="max-lines-3 title vertical-center">{{ event.title }}</span>
-        </div>
-        <mat-icon *ngIf="!isOpened" class="expand">expand_more</mat-icon>
-        <mat-icon *ngIf="isOpened" class="expand">expand_less</mat-icon>
+<div>
+  <mat-expansion-panel 
+    class="rs-event"
+    hideToggle
+    [expanded]="isOpened"
+    [class.closed]="!isOpened"
+    (opened)="opened.emit()"
+    (closed)="closed.emit()">
+    <mat-expansion-panel-header class="rs-event-summary">
+      <mat-card class="card">
+        <mat-card-header class="header" [class.opened]="isOpened">
+          <div class="date vertical-center">
+            <span class="day"> {{ event.start | date : 'dd' }} </span>
+            <span class="weekday">
+              {{ event.start | date : 'EEEE' : '' : 'nl' }}
+            </span>
+          </div>
+          <div class="summary">
+            <span class="max-lines-3 title vertical-center">{{ event.title }}</span>
+          </div>
+          <mat-icon *ngIf="!isOpened" class="expand">expand_more</mat-icon>
+          <mat-icon *ngIf="isOpened" class="expand">expand_less</mat-icon>
 
-      </mat-card-header>
-    </mat-card>
-  </mat-expansion-panel-header>
-  <div #detailCard class="rs-event-detail">
-    <div class="info">
-      <p class="max-lines-3">{{event.description}}</p>
-      <div class="category-list">
-        <div class="category" *ngFor="let category of event.categories">
-          {{ category }}
-        </div>
-      </div>
-      <div class="info-row">
-        <div class="info-date">
-          <div class="rs-icon">
-            <img src="/assets/icons/clock.svg"/>
+        </mat-card-header>
+      </mat-card>
+    </mat-expansion-panel-header>
+    <div class="rs-event-detail">
+      <div class="info">
+        <p class="max-lines-3">{{event.description}}</p>
+        <div class="category-list">
+          <div class="category" *ngFor="let category of event.categories">
+            {{ category }}
           </div>
-          <span>
-            {{ event.start | date : 'HH:mm' }}-{{ event.end | date : 'HH:mm' }}
-          </span>
         </div>
-        <div>
-          <div class="rs-icon">
-            <img src="/assets/icons/team.svg" />
+        <div class="info-row">
+          <div class="info-date">
+            <div class="rs-icon">
+              <img src="/assets/icons/clock.svg"/>
+            </div>
+            <span>
+              {{ event.start | date : 'HH:mm' }}-{{ event.end | date : 'HH:mm' }}
+            </span>
           </div>
-          <span>{{ event.spots }}</span>
+          <div>
+            <div class="rs-icon">
+              <img src="/assets/icons/team.svg" />
+            </div>
+            <span>{{ event.spots }}</span>
+          </div>
         </div>
-      </div>
 
-      <div class="info-row">
-        <div>
-          <div class="rs-icon">
-            <img src="/assets/icons/house-love.svg" />
+        <div class="info-row">
+          <div>
+            <div class="rs-icon">
+              <img src="/assets/icons/house-love.svg" />
+            </div>
+            <a *ngIf="event.locationLink" [href]="event.locationLink"><span>{{ event.location }}</span></a>
+            <span *ngIf="!event.locationLink">{{ event.location }}</span>
           </div>
-          <a *ngIf="event.locationLink" [href]="event.locationLink"><span>{{ event.location }}</span></a>
-          <span *ngIf="!event.locationLink">{{ event.location }}</span>
         </div>
       </div>
+      <button class="team-up-it-button" (click)="goToSignUpPage()">
+        <span>Ga naar Team Up IT</span><span class="navigate">▸▸</span>
+      </button>
     </div>
-    <button class="team-up-it-button" (click)="goToSignUpPage()">
-      <span>Ga naar Team Up IT</span><span class="navigate">▸▸</span>
-    </button>
-  </div>
-</mat-expansion-panel>
+  </mat-expansion-panel>
+</div>

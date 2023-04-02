@@ -27,7 +27,6 @@ import { Clipboard } from '@angular/cdk/clipboard';
 // - MOBILE
 //   - TOP RIGHT CORNER FILTER AND SEARCH
 //   - ICS BUTTON TO BOTTOM RIGHT (CHANGE ICON)
-// - FIX EVENT DETAILS HEIGHT
 
 @Component({
   selector: 'app-root',

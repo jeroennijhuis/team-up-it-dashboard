@@ -19,9 +19,9 @@
   </ng-container>
 
   <app-category-select-input *ngIf="categories !== undefined" class="large" [categories]="categories" [control]="selectedCategoriesFormControl"></app-category-select-input>
-  <button mat-fab matTooltip="Primary" color="primary" aria-label="iCal" (click)="copyIcal()">
+  <!-- <button mat-fab matTooltip="Primary" color="primary" aria-label="iCal" (click)="copyIcal()">
     <mat-icon>event_repeat</mat-icon>
-  </button>
+  </button> -->
 </mat-toolbar>
 
 <div #listView id="listView" class="list-view" *ngIf="eventCalendar" [class.hidden]="isLoading">

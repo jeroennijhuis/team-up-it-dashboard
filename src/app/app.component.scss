@@ -46,7 +46,7 @@ mat-toolbar {
     }
 
     > *:not(.spacer,img, button) {
-        margin-right: 20px;
+        margin-left: 20px;
         flex: auto;
         
         @media(min-width:925px) {
@@ -282,7 +282,7 @@ mat-toolbar {
     }
 
     mat-option {
-        padding-left: 40px !important;
+        padding-left: 20px !important;
     }
 
     mat-pseudo-checkbox {

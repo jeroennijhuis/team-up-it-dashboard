@@ -9,8 +9,6 @@
 }
 
 .rs-event-detail {
-    margin-top: 10px;
-
     .info {
         height: calc(100% - 40px);
     }
@@ -26,6 +24,7 @@
         font-size: 16px;
         font-family: 'Rockstars';
         margin-top: 10px;
+        cursor: pointer;
 
         span {
             vertical-align: middle;
