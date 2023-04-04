@@ -1,7 +1,8 @@
 import { ObjectUtil } from './../../utils/object.util';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CategoryUtil } from 'src/app/utils/category.util';
 import { FormControl } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 
 export interface ICategory {
   key: string;
@@ -26,6 +27,10 @@ export class CategorySelectInputComponent {
     ['Chapters', this.chapterCategories],
     ['Tribes', this.tribeCategories],
   ]);
+
+  @ViewChild(MatSelect) matSelect!: MatSelect;
+
+  @Output() closed = new EventEmitter<void>();
 
   @Input() control!: FormControl<string[] | undefined>;
   @Input() set categories(value: string[]) {

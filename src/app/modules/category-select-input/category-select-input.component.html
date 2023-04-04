@@ -1,6 +1,6 @@
-<mat-form-field *ngIf="control" appearance="fill" subscriptSizing="dynamic">
-  <mat-label>Filter</mat-label>
-  <mat-select [formControl]="control" (closed)="selectedCategoryGroupIndex = undefined" multiple>
+<mat-form-field appearance="fill" subscriptSizing="dynamic">
+  <mat-label>Categorieën</mat-label>
+  <mat-select [formControl]="control" (closed)="selectedCategoryGroupIndex = undefined; closed.emit()" multiple>
     <mat-select-trigger>
       <span [ngSwitch]="control.value?.length">
         <span *ngSwitchCase="0">Geen</span>
@@ -28,8 +28,8 @@
             <app-checkbox [checked]="isChecked(category.key)" [label]="category.label">
             </app-checkbox>
           </label>
-          
       </mat-option>
     </mat-expansion-panel>
   </mat-select>
+  <mat-icon matSuffix>filter_alt</mat-icon>
 </mat-form-field>

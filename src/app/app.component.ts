@@ -10,9 +10,6 @@ import { DatePipe } from '@angular/common';
 import { ArrayUtil } from './utils/array.util';
 import { CategorySelectInputComponent } from './modules/category-select-input/category-select-input.component';
 import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-response';
-import { ToasterService } from './modules/toaster/toaster.service';
-import { HttpParams } from '@angular/common/http';
-import { Clipboard } from '@angular/cdk/clipboard';
 
 // TODO MOBILE BUGS
 //  - Background scrolls
@@ -20,13 +17,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 //  - Letter spacing on navigation icons in team up it button
 
 // TODO KNOWN ISSUES
-// - SWITCHING TO MOBILE HIDES CURRENT FILTERS
 // - MULTI-DAY EVENTS
-
-// TODO BACKLOG
-// - MOBILE
-//   - TOP RIGHT CORNER FILTER AND SEARCH
-//   - ICS BUTTON TO BOTTOM RIGHT (CHANGE ICON)
 
 @Component({
   selector: 'app-root',
@@ -49,6 +40,7 @@ export class AppComponent implements OnDestroy {
   eventCalendar?: Map<number, Map<number, TeamUpItEvent[]>>;
   highlightedEvent?: TeamUpItEvent;
 
+  isFilterFocused = true;
   isLoading = true;
   isMobile?: boolean;
   hasScrolled = false;
@@ -59,7 +51,6 @@ export class AppComponent implements OnDestroy {
   selectedFromDateFormControl = new FormControl<Date | undefined>(this.today);
   searchFormControl = new FormControl<string | undefined>(undefined);
 
-  @ViewChild(CategorySelectInputComponent) categorySelect!: CategorySelectInputComponent;
   @ViewChild('listView', { static: false })
   set listView(elem: ElementRef) {
     if (ObjectUtil.isDefined(elem)) {
@@ -67,14 +58,15 @@ export class AppComponent implements OnDestroy {
     }
   }
 
+  @ViewChild('categoryFilter', { static: false }) categorySelect!: CategorySelectInputComponent;
+  @ViewChild('searchInput', { static: false }) searchInput!: ElementRef;
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly service: TeamUpItService,
     private readonly mobileService: MobileService,
     private readonly router: Router,
-    private readonly datePipe: DatePipe,
-    private readonly toasterService: ToasterService,
-    private readonly clipboard: Clipboard
+    private readonly datePipe: DatePipe
   ) {
     this.mobileService.isDesktop$.pipe(takeUntil(this.destroy$)).subscribe(isDesktop => (this.isMobile = !isDesktop));
 
@@ -233,16 +225,11 @@ export class AppComponent implements OnDestroy {
     this.hasScrolled = offset >= 80;
   }
 
-  copyIcal(): void {
-    let url = 'https://calendar.teamupit.nl/upcomingeventscalendar.ics';
+  openCategorySelect(): void {
+    setTimeout(() => this.categorySelect.matSelect.open());
+  }
 
-    const categories = this.selectedCategoriesFormControl.value;
-    if (ObjectUtil.isDefined(categories) && categories.length !== this.categorySelect.totalCategoryCount) {
-      const params = new HttpParams().set(this.categoriesParam, categories.join(this.categorySplitter));
-      url += `?${params.toString()}`;
-    }
-
-    this.clipboard.copy(url);
-    this.toasterService.show('De kalender link (.ics) is gekopieerd naar uw klembord.', '🤘');
+  focusSearch(): void {
+    setTimeout(() => this.searchInput.nativeElement.focus());
   }
 }

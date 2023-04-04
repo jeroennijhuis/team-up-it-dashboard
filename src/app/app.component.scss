@@ -26,6 +26,10 @@ $menu-height: 80px;
     }
 }
 
+.icon-container{
+    padding: 7px;
+}
+
 mat-toolbar {
     padding-left: 20px;
     padding-right: 20px;
@@ -35,7 +39,11 @@ mat-toolbar {
     position: fixed;
     z-index: 1;
     min-width: 100px;
+    // margin: 0 20px;
 
+    button {
+        margin-left: 10px;
+    }
 
     &.scrolled {
         background-color: rgba(23, 23, 23, 0.7);
@@ -145,6 +153,10 @@ mat-toolbar {
         }
     }
     
+}
+
+app-category-select-input.hidden {
+    display: none;
 }
 
 .year {

@@ -21,6 +21,7 @@ import { CustomDateAdapter } from './utils/custom.date.adapter';
 import { CategorySelectInputModule } from './modules/category-select-input/category-select-input.module';
 import { ToasterModule } from './modules/toaster/toaster.module';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatBadgeModule } from '@angular/material/badge';
 
 registerLocaleData(myLocaleNl);
 
@@ -47,6 +48,7 @@ registerLocaleData(myLocaleNl);
     MatToolbarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatBadgeModule,
   ],
   providers: [
     TeamUpItService,
