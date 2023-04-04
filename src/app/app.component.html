@@ -6,7 +6,7 @@
 </div>
 
 <mat-toolbar [class.scrolled]="hasScrolled">
-  <img class="logo" src="assets/logo.png" />
+  <img *ngIf="!isMobile" class="logo" src="assets/logo.png" />
 
   <mat-form-field *ngIf="!isFilterFocused || !isMobile" class="large" appearance="fill" subscriptSizing="dynamic" >
     <mat-label>Zoek</mat-label>
