@@ -16,8 +16,8 @@ $menu-height: 80px;
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-position: center;
-      height: 100vh;
-      width: 100vw;
+      height: 100%;
+      width: 100%;
       position: fixed;
       -webkit-background-size: cover;
       -moz-background-size: cover;
@@ -140,7 +140,7 @@ mat-toolbar {
                 content: "";
                 width: 2px;
                 left: 50%;
-                border-left: 2px solid white;
+                border-left: 3px solid white;
             }
             &:before {
                 bottom: 60%;
@@ -161,6 +161,7 @@ app-category-select-input.hidden {
 
 .year {
     transform: rotate(90deg);
+    font-weight: 900;
 }
 
 .list-view {
@@ -314,7 +315,7 @@ app-category-select-input.hidden {
     }
 
     .mdc-menu-surface{
-        max-height: calc(100vh - 80px) !important; //FIXME MENU HEIGHT VAR
+        max-height: calc(80vh) !important;
     }
 }
 

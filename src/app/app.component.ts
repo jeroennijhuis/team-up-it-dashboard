@@ -19,6 +19,11 @@ import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-resp
 // TODO KNOWN ISSUES
 // - MULTI-DAY EVENTS
 
+// TODO IMPROVE
+// - DOC
+// - Bundle size
+// - TrackBy *ngFor
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
