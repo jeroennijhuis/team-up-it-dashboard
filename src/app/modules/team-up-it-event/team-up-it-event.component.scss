@@ -138,6 +138,11 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
+    line-break: after-white-space;
+
+    &.description {
+        max-height: 75px;
+    }
 }
 
 .max-three-lines > p {
