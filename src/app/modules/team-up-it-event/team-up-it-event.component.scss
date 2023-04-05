@@ -135,7 +135,9 @@
 .max-lines-3 {
     overflow: hidden;
     text-overflow: ellipsis;
+    word-wrap: break-all;
     display: -webkit-box !important;
+    line-clamp: 3;
     -webkit-line-clamp: 3; /* number of lines to show */
             line-clamp: 3; 
     -webkit-box-orient: vertical;
