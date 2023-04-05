@@ -19,8 +19,7 @@ import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-resp
 
 // TODO IMPROVE
 // - DOC
-// - Bundle size
-// - TrackBy *ngFor
+// - Sticky headers mobile list view
 
 @Component({
   selector: 'app-root',
