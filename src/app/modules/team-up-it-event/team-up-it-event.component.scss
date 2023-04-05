@@ -1,0 +1,194 @@
+.rs-event {
+    padding: 0px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
+    border-radius: 0px;
+
+    &.closed {
+        opacity: 0.85;
+    }
+}
+
+.rs-event-detail {
+    .info {
+        height: calc(100% - 40px);
+    }
+
+    .description {
+        margin-bottom: 15px;
+    }
+
+    .team-up-it-button {
+        height: 40px;
+        text-transform: uppercase;
+        font-size: 20px;
+        font-weight: 600;
+        float: right;
+        border: 0;
+        padding: 0 10px;
+        font-size: 16px;
+        font-family: 'Rockstars';
+        margin-top: 10px;
+        cursor: pointer;
+
+        span {
+            vertical-align: middle;
+
+            &.navigate {
+                letter-spacing: -0.3em;
+                font-size: 20px;
+                margin: 0 10px;
+            }
+        }
+    }
+}
+
+.info {
+    &-row {
+        display: table;
+        font-weight: 700;
+
+        > * {
+            float: left;
+            display: flex;
+            align-items: center;
+            margin-right: 2rem;
+        }
+    }
+
+    &-date {
+        width: 130px;
+    }
+}
+
+.category-list {
+    margin-bottom: 15px;
+
+    .category {
+        margin: 0px 6px 5px 0px;
+        display: inline-block;
+        background: #FFE000;
+        padding: 1px 10px;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 12px;
+    }
+}
+
+.rs-event-summary {
+    padding: 0px;
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #232323;
+
+    .card {
+        width: 100%;
+        display: block;
+        min-height: 80px;
+    
+        .header {
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+
+            .date {
+                min-width: 80px;
+                text-align: center;
+
+                .day {
+                    font-size: 45px;
+                    font-weight: 800;
+                    line-height: 42px;
+                }
+
+                .weekday {
+                    text-transform: uppercase;
+                    font-size: 11px;
+                }
+            }
+
+            .summary {
+                min-width: 200px;         
+                font-weight: bold;
+                font-size: 16px;
+                display: flex;
+                padding: 10px 15px;
+
+                .title {
+                    font-size: 17px;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    margin: auto 20px auto 0;
+                }
+            }
+
+            .expand {
+                font-weight: 500;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}
+
+.max-three-lines {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    line-break: after-white-space;
+
+    &.description {
+        max-height: 75px;
+    }
+}
+
+.max-three-lines > p {
+    margin-bottom: 0;
+}
+
+.max-three-lines > span {
+    margin-bottom: 0;
+}
+
+// .max-lines-3 {
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     word-wrap: break-all;
+//     display: -webkit-box !important;
+//     line-clamp: 3;
+//     -webkit-line-clamp: 3; /* number of lines to show */
+//             line-clamp: 3; 
+//     -webkit-box-orient: vertical;
+// }
+
+.rs-icon {
+    background-color: #FFE000; //FIXME
+    border-radius: 40px;
+    padding: 5px;
+    width: 25px;
+    height: 25px;
+    float: left;
+    display: flex;
+    margin-right: 10px;
+    margin-bottom: 5px
+}
+
+mat-chip {
+    font-size: 12px;
+    height: 20px;
+    pointer-events: none;
+
+}
+
+.vertical-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+::ng-deep .mat-content.mat-content-hide-toggle {
+    margin: 0px !important;
+}

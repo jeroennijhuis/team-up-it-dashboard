@@ -1,10 +1,10 @@
 export interface UpcomingEventsResponse {
   count: number;
   categoryFilter: string;
-  upcomingEvents: Event[];
+  upcomingEvents: TeamUpItEvent[];
 }
 
-export interface Event {
+export interface TeamUpItEvent {
   id: number;
   slug: string;
   title: string;

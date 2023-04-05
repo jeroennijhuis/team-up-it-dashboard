@@ -6,11 +6,11 @@ export class ObjectUtil {
   }
 
   static isUndefined<T>(obj: TNullable<T>): obj is T {
-    return !this.isDefined(obj);
+    return !this.isDefined<T>(obj);
   }
 
   static mustBeDefined<T>(obj: TNullable<T>): T {
-    if (this.isUndefined(obj)) {
+    if (this.isUndefined<T>(obj)) {
       throw new Error('Object may not be null!');
     }
 

@@ -27,6 +27,7 @@
         }
     
         .date {
+            border: 3px solid mat.get-color-from-palette($primary-palette, 900);
             background-color: mat.get-color-from-palette($primary-palette, 900);
             color: white;
         }
@@ -41,7 +42,7 @@
   .rs-event-detail {
     .team-up-it-button {
         background-color: mat.get-color-from-palette($primary-palette, 900) !important;
-        color: mat.get-color-from-palette($accent-palette) !important;
+        color: white;
    }
   } 
 

@@ -1,9 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-// * {
-//     font-family: Rockstars /* Replace with your custom font */, sans-serif !important; 
-//     /* Add !important to overwrite all elements */
-//   }
 @use '@angular/material' as mat;
 
 @import '@angular/cdk/overlay-prebuilt.css';

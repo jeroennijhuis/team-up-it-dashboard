@@ -1,5 +1,52 @@
-  @font-face {
-    font-family: Rockstars;
-    src: url('/assets/fonts/353190_1_0.woff') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-         url('/assets/fonts/353190_1_0.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
-  }
+// REGULAR STYLE
+
+@font-face {
+  font-family: "Rockstars";
+  src: url("../assets/fonts/DIN2014-Regular.otf") format("opentype");
+  font-weight: 400; //Normal
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rockstars";
+  src: url("../assets/fonts/DIN2014-Demi.otf") format("opentype");
+  font-weight: 600; //Semi Bold
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rockstars";
+  src: url("../assets/fonts/DIN2014-Bold.otf") format("opentype");
+  font-weight: 700; //Bold
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rockstars";
+  src: url("../assets/fonts/DIN2014-ExtraBold.otf") format("opentype");
+  font-weight: 800; //Extra Bold
+  font-style: normal;
+}
+
+// ITALIC STYLE
+
+@font-face {
+  font-family: "Rockstars";
+  src: url("../assets/fonts/DIN2014-DemiItalic.otf") format("opentype");
+  font-weight: 600; //Semi Bold
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rockstars";
+  src: url("../assets/fonts/DIN2014-BoldItalic.otf") format("opentype");
+  font-weight: 700; //Bold
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rockstars";
+  src: url("../assets/fonts/DIN2014-ExtraBoldItalic.otf") format("opentype");
+  font-weight: 800; //Extra Bold
+  font-style: italic;
+}

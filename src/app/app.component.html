@@ -1,17 +1,56 @@
 <div class="main-content">
   <div class="background"></div>
+  <div *ngIf="isLoading" class="loader">
+    <img src="/assets/logo.png">
+  </div>
 </div>
-<div class="list-view">
-  <ng-container *ngFor="let year of eventCalendar | keyvalue : useMapOrder">
-    <div class="divider-vertical">
-      <div class="center-element">{{ year.key }}</div>
-    </div>
 
-    <ng-container *ngFor="let month of year.value | keyvalue : useMapOrder; let i = index">
-      <div *ngFor="let event of month.value; let i = index">
-        <div *ngIf="i === 0" class="divider-horizontal">
-          {{ event.start | date : 'MMMM' : '' : 'nl' }}
+<mat-toolbar [class.scrolled]="hasScrolled">
+  <img *ngIf="!isMobile" class="logo" src="assets/logo.png" />
+
+  <mat-form-field *ngIf="!isFilterFocused || !isMobile" class="large" appearance="fill" subscriptSizing="dynamic" >
+    <mat-label>Zoek</mat-label>
+    <input #searchInput [formControl]="searchFormControl" matInput>
+    <mat-icon *ngIf="!!searchFormControl.value" matSuffix (click)="searchFormControl.setValue('')">close</mat-icon>
+    <mat-icon *ngIf="!searchFormControl.value" matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <button *ngIf="isFilterFocused && isMobile" mat-fab matTooltip="Primary" color="primary" aria-label="iCal" (click)="isFilterFocused = false; focusSearch()">
+    <div class="icon-container" [matBadge]="!!searchFormControl.value ? searchFormControl.value.length <= 2 ? searchFormControl.value : '..' : undefined" matBadgeColor="accent">
+      <mat-icon>search</mat-icon>
+    </div>
+  </button>
+
+  <span *ngIf="!isMobile" class="spacer"></span>
+  
+  <button *ngIf="!isFilterFocused && isMobile && categorySelect" class="filter" mat-fab matTooltip="Primary" color="primary" aria-label="iCal" (click)="isFilterFocused = !isFilterFocused; openCategorySelect();">
+    <div class="icon-container" [matBadge]="selectedCategoriesFormControl.value?.length === categorySelect.totalCategoryCount ? '' : selectedCategoriesFormControl.value?.length" matBadgeColor="accent">
+      <mat-icon >
+        <span class="material-symbols-outlined">
+        filter_alt
+        </span>
+    </mat-icon>
+    </div>
+  </button>
+  
+  <app-category-select-input class="large" [class.hidden]="!isFilterFocused && isMobile" *ngIf="categories !== undefined" #categoryFilter [class.focused]="isFilterFocused" [categories]="categories" [control]="selectedCategoriesFormControl"></app-category-select-input>
+</mat-toolbar>
+
+<div #listView id="listView" class="list-view" *ngIf="eventCalendar" [class.hidden]="isLoading">
+  <ng-container *ngFor="let year of eventCalendar | keyvalue">
+    <div *ngIf="!isMobile" class="divider-vertical">
+      <div class="center-element">
+        <div class="year">{{ year.key }}</div>
+    </div>
+    </div>
+    <ng-container *ngFor="let month of year.value | keyvalue">
+      <div class="app-row" *ngFor="let event of month.value; let i = index">
+        <div *ngIf="i === 0" class="month-container">
+          <div class="month">
+            {{ event.start | date : 'MMMM' : '' : 'nl' }}
+          </div>
         </div>
+       
         <app-team-up-it-event
           [event]="event"
           [isOpened]="event === highlightedEvent"
@@ -22,4 +61,5 @@
     </ng-container>
   </ng-container>
 </div>
-<img class="rs-logo" src="assets/team-up-it-logo.png" (click)="openCategorySelect()" />
+
+

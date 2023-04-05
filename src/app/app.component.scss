@@ -1,7 +1,10 @@
+$menu-height: 80px;
+
 .main-content {
     display: grid;
     align-items: center;
-    max-height: 100vh;
+    height: 100%;
+    width: 100%;
     position: absolute;
   
     .background {
@@ -10,12 +13,10 @@
       left: 0;
       background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4) ), url('./../assets/pareis.png');
       background-repeat: no-repeat;
-      background-attachment: fixed;
       background-position: center;
-      width: 100%;
       height: 100vh;
+      width: 100vw;
       position: fixed;
-      z-index: -10;
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
@@ -23,14 +24,58 @@
     }
 }
 
-.rs-logo {
-    max-width: 130px;
-    max-height: 130px;
-    top: 5px;
-    left: 0px;
-    position: absolute;
-    cursor: pointer;
-    
+.icon-container{
+    padding: 7px;
+}
+
+mat-toolbar {
+    padding-left: 20px;
+    padding-right: 20px;
+    height: $menu-height;
+    padding: 0 20px;
+    background-color: transparent;
+    position: fixed;
+    z-index: 1;
+    min-width: 100px;
+    // margin: 0 20px;
+
+    button {
+        margin-left: 10px;
+    }
+
+    &.scrolled {
+        background-color: rgba(23, 23, 23, 0.7);
+        transition: background-color 1s ease;
+        img {
+            margin: 0 auto;
+        }
+    }
+
+    > *:not(.spacer,img, button) {
+        margin-left: 20px;
+        flex: auto;
+        
+        @media(min-width:925px) {
+            max-width: none;
+            max-width:  200px;
+        }
+
+        &.large {
+            @media(min-width:925px) {
+                max-width: 400px;
+            }
+        }
+    }
+
+    .logo {
+        max-width: 100px;
+        display: block;
+        max-height: $menu-height;
+    }
+
+    .spacer {
+        flex: 1 1 auto;
+    }
 }
 
 .divider {
@@ -40,13 +85,12 @@
         font-weight: bold;
         text-transform: uppercase;
         text-align: center;
-        width: 400px;
-        margin: 15px 20px 30px 20px;
-        align-items: center;
         --text-divider-gap: 1rem;
-        display: flex;
         height: 80px;
-    
+        display: flex;
+        margin: 0 auto 3vh auto;
+        align-items: center;
+        
         &::before, &::after {
             content: '';
             height: 2px;
@@ -82,9 +126,6 @@
             font-size: 30px;
             font-weight: bold;
     
-            -ms-writing-mode: tb-rl;
-            -webkit-writing-mode: vertical-lr;
-            writing-mode: vertical-lr;
             -moz-transform: scale(-1, -1);
             -webkit-transform: scale(-1, -1);
             -o-transform: scale(-1, -1);
@@ -97,14 +138,14 @@
                 content: "";
                 width: 2px;
                 left: 50%;
-                border-left: 2px solid white;
+                border-left: 3px solid white;
             }
             &:before {
-                bottom: 55%;
+                bottom: 60%;
                 top: 20%;
             }
             &:after {
-                top: 55%;
+                top: 60%;
                 bottom: 20%;
             }
         }
@@ -112,11 +153,173 @@
     
 }
 
+app-category-select-input.hidden {
+    display: none;
+}
+
+.year {
+    transform: rotate(90deg);
+    font-weight: 900;
+}
+
 .list-view {
-    height: calc(100vh - 40px);
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-top: 20px;
+    gap: 3vh;
+    align-items: center;
+    padding-top: 120px;
+    overflow-x: auto;
+    padding-top: 90px;
+
+    &.hidden {
+        visibility: hidden;
+    }
+
+    @media (min-width:925px) {
+        padding-top: 120px;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        height: calc(100vh - 150px);
+    }
 }
+
+.app-row {
+    width: 100%;
+
+    @media (min-width:925px) {
+        width: 25em; 
+
+    }
+}
+
+.month-container {
+    display: flex;
+    margin: 0 auto 3vh auto;
+    position: relative;
+    opacity: 0.85;
+
+    @media (min-width:925px) {
+        height: 80px;
+    }
+}
+.month {
+    background-color: #232323; //FIXME
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 42px;
+    width: 100%;
+    bottom: 0;
+
+    @media (min-width:925px) {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+.loader {
+    border: 8px solid #232323;
+    /* Light grey */
+    border-top: 8px solid #ffe000;
+    /* Dark Green */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spinloader 2s linear infinite;
+    margin: auto;
+
+}
+
+.loader img {
+    height: 120px;
+    width: 120px;
+    animation: spinlogo 2s linear infinite;
+}
+
+@keyframes spinloader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinlogo {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+
+::ng-deep {
+    /* form field */
+
+    .mdc-text-field {
+        background-color: #232323 !important;
+
+        * {
+            color: white;
+            caret-color: white !important;
+
+            input {
+                color: white !important;
+            }
+        }
+    }    
+
+    .mdc-menu-surface {
+        background-color: #232323 !important;
+    }
+
+    .mdc-form-field {
+        color: white !important;
+    }
+
+    .mdc-form-field {
+        border-color: white !important;
+    }
+    
+    /* Extension panel */
+
+    .mat-expansion-panel.filter {
+        background-color: transparent;
+    }
+
+    .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+        background-color: transparent;
+    }
+
+    mat-option {
+        padding-left: 20px !important;
+    }
+
+    mat-pseudo-checkbox {
+        display: none !important;
+        visibility: collapse !important;
+        &::after {
+        color: #232323 !important;
+        }
+    }
+
+    .mat-expansion-indicator::after {
+        color: white !important;
+    }
+
+    .mdc-checkbox__background:not(:checked) {
+        border-color: white !important;
+    }
+
+    .mdc-menu-surface{
+        max-height: calc(80vh) !important;
+    }
+}
+
