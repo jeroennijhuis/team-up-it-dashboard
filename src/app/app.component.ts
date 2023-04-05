@@ -12,8 +12,6 @@ import { CategorySelectInputComponent } from './modules/category-select-input/ca
 import { TeamUpItEvent } from './services/team-up-it/models/upcoming-events-response';
 
 // TODO MOBILE BUGS
-//  - Background scrolls
-//  - Event description not cut off after 3 lines.
 //  - Letter spacing on navigation icons in team up it button
 
 // TODO KNOWN ISSUES

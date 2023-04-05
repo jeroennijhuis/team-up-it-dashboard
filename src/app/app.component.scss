@@ -168,19 +168,19 @@ app-category-select-input.hidden {
     flex-direction: column;
     gap: 3vh;
     align-items: center;
-    padding-top: 80px;
+    padding-top: 120px;
     overflow-x: auto;
+    padding-top: 90px;
 
     &.hidden {
         visibility: hidden;
     }
 
     @media (min-width:925px) {
+        padding-top: 120px;
         flex-wrap: wrap;
         align-items: flex-start;
-        height: calc(100vh - 50px - 90px);
-        padding-top: 120px;
-
+        height: calc(100vh - 150px);
     }
 }
 
@@ -194,11 +194,14 @@ app-category-select-input.hidden {
 }
 
 .month-container {
-    height: 80px;
     display: flex;
     margin: 0 auto 3vh auto;
     position: relative;
     opacity: 0.85;
+
+    @media (min-width:925px) {
+        height: 80px;
+    }
 }
 .month {
     background-color: #232323; //FIXME
@@ -208,10 +211,13 @@ app-category-select-input.hidden {
     font-weight: 700;
     font-size: 40px;
     line-height: 42px;
-    position: absolute;
     width: 100%;
     bottom: 0;
 
+    @media (min-width:925px) {
+        position: absolute;
+        bottom: 0;
+    }
 }
 
 .loader {
