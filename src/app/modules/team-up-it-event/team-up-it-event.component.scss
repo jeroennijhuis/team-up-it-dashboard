@@ -14,7 +14,7 @@
     }
 
     .description {
-        margin: 15px 0;
+        margin-bottom: 15px;
     }
 
     .team-up-it-button {
@@ -132,16 +132,32 @@
     }
 }
 
-.max-lines-3 {
-    overflow: hidden;
+.max-three-lines {
+    display: -webkit-box;
     text-overflow: ellipsis;
-    word-wrap: break-all;
-    display: -webkit-box !important;
-    line-clamp: 3;
-    -webkit-line-clamp: 3; /* number of lines to show */
-            line-clamp: 3; 
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
 }
+
+.max-three-lines > p {
+    margin-bottom: 0;
+}
+
+.max-three-lines > span {
+    margin-bottom: 0;
+}
+
+// .max-lines-3 {
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     word-wrap: break-all;
+//     display: -webkit-box !important;
+//     line-clamp: 3;
+//     -webkit-line-clamp: 3; /* number of lines to show */
+//             line-clamp: 3; 
+//     -webkit-box-orient: vertical;
+// }
 
 .rs-icon {
     background-color: #FFE000; //FIXME
