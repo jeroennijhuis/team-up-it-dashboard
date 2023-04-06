@@ -44,8 +44,11 @@
     </div>
     </div>
     <ng-container *ngFor="let month of year.value | keyvalue">
+      <div *ngIf="isMobile" class="month">
+        {{ (month.value[0].start | date : 'MMMM' : '' : 'nl') ?? 'niets' }} <span *ngIf="isMobile">'{{ year.key % 100 }}</span>
+      </div>
       <div class="app-row" *ngFor="let event of month.value; let i = index">
-        <div *ngIf="i === 0" class="month-container">
+        <div *ngIf="!isMobile && i === 0" class="month-container">
           <div class="month">
             {{ event.start | date : 'MMMM' : '' : 'nl' }}
           </div>

@@ -163,24 +163,26 @@ app-category-select-input.hidden {
 }
 
 .list-view {
-    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 3vh;
     align-items: center;
-    padding-top: 120px;
     overflow-x: auto;
-    padding-top: 90px;
-
+    top: 90px;
+    position: relative;
+    overflow: auto;
+    max-height: calc(100vh - 90px - 20px);
+    padding: 0 20px 20px 20px;
     &.hidden {
         visibility: hidden;
     }
 
     @media (min-width:925px) {
-        padding-top: 120px;
         flex-wrap: wrap;
         align-items: flex-start;
-        height: calc(100vh - 150px);
+        height: calc(100vh - 90px - 100px);
+        overflow-x: scroll;
+        padding: 50px 0px;
     }
 }
 
@@ -198,6 +200,7 @@ app-category-select-input.hidden {
     margin: 0 auto 3vh auto;
     position: relative;
     opacity: 0.85;
+    z-index: 1;
 
     @media (min-width:925px) {
         height: 80px;
@@ -212,10 +215,13 @@ app-category-select-input.hidden {
     font-size: 40px;
     line-height: 42px;
     width: 100%;
-    bottom: 0;
+    position: sticky;
+    z-index: 1;
+    top: 0;
 
     @media (min-width:925px) {
         position: absolute;
+        top: initial;
         bottom: 0;
     }
 }
@@ -322,4 +328,3 @@ app-category-select-input.hidden {
         max-height: calc(80vh) !important;
     }
 }
-
