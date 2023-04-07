@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 /**
@@ -6,16 +6,19 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
  */
 @Injectable()
 export class ToasterService {
-  private static readonly horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  private static readonly verticalPosition: MatSnackBarVerticalPosition = 'top';
-  private static readonly duration = 5000;
-  constructor(private readonly snackBar: MatSnackBar) {}
+  private readonly horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  private readonly verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  private readonly duration = 5000;
+  constructor(private readonly snackBar: MatSnackBar, private readonly zone: NgZone) {}
 
   show(message: string, action?: string) {
-    this.snackBar.open(message, action, {
-      horizontalPosition: ToasterService.horizontalPosition,
-      verticalPosition: ToasterService.verticalPosition,
-      duration: ToasterService.duration,
+    this.zone.run(() => {
+      this.snackBar.open(message, action, {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+        duration: this.duration,
+        panelClass: 'app-snackbar',
+      });
     });
   }
 }

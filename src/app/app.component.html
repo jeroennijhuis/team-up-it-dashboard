@@ -34,6 +34,9 @@
   </button>
   
   <app-category-select-input class="large" [class.hidden]="!isFilterFocused && isMobile" *ngIf="categories !== undefined" #categoryFilter [class.focused]="isFilterFocused" [categories]="categories" [control]="selectedCategoriesFormControl"></app-category-select-input>
+  <button *ngIf="!isMobile" mat-fab matTooltip="Primary" color="primary" aria-label="download ics" (click)="copyIcsLink()">
+    <mat-icon>content_copy</mat-icon>
+</button>
 </mat-toolbar>
 
 <div #listView id="listView" class="list-view" *ngIf="eventCalendar" [class.hidden]="isLoading">
@@ -64,5 +67,9 @@
     </ng-container>
   </ng-container>
 </div>
+
+<button *ngIf="isMobile" class="icsButton" mat-fab matTooltip="Primary" color="primary" aria-label="download ics" (click)="copyIcsLink()">
+    <mat-icon>content_copy</mat-icon>
+</button>
 
 

@@ -4,3 +4,10 @@
 
 @import '@angular/cdk/overlay-prebuilt.css';
 @import './styles/fonts.scss';
+
+
+.app-snackbar {
+    @media (min-width:925px) {
+        transform: translateY(-20px) !important;
+    }
+}
